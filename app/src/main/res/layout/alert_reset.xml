@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/reset_Alert"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/btn_white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/reset_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dm_150"
+        android:layout_marginTop="@dimen/dm_30"
+        app:srcCompat="@drawable/icon_reset_app_data" />
+
+    <TextView
+        android:id="@+id/reset_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dm_30"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:text="@string/reset"
+        android:textColor="@color/fontColor"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dm_10"
+        android:layout_marginBottom="@dimen/dm_30"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dm_20"
+            android:layout_marginRight="@dimen/dm_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_light_blue"
+            android:fontFamily="@font/roboto_black"
+            android:padding="@dimen/dm_10"
+            android:text="@string/yes"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dm_10"
+            android:layout_marginRight="@dimen/dm_20"
+            android:layout_weight="1"
+            android:background="@drawable/btbn_dark_gray"
+            android:fontFamily="@font/roboto_black"
+            android:padding="@dimen/dm_10"
+            android:text="@string/no"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>

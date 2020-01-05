@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_side_patient"
+            android:icon="@drawable/ic_patient"
+            android:title="Patient"/>
+        <item
+            android:id="@+id/navigation_side_allergy"
+            android:icon="@drawable/ic_allergy"
+            android:title="Allergy Intolerance" />
+        <item
+            android:id="@+id/navigation_side_condition"
+            android:icon="@drawable/ic_condition"
+            android:title="Condition" />
+        <item
+            android:id="@+id/navigation_side_med_dispense"
+            android:icon="@drawable/ic_medicine_dispenser"
+            android:title="Medication Dispense" />
+        <item
+            android:id="@+id/navigation_side_med_order"
+            android:icon="@drawable/ic_medicine_order"
+            android:title="Medication Order" />
+        <item
+            android:id="@+id/navigation_side_obs_exam"
+            android:icon="@drawable/ic_observation_exam"
+            android:title="Observation - Exam" />
+        <item
+            android:id="@+id/navigation_side_obs_lab"
+            android:icon="@drawable/ic_observation_laboratory"
+            android:title="Observation - Laboratory" />
+        <item
+            android:id="@+id/navigation_side_obs_social_hist"
+            android:icon="@drawable/ic_observation_social_history"
+            android:title="Observation - Social History" />
+    </group>
+
+    <group
+        android:id="@+id/sidemenu_back"
+        android:checkableBehavior="none">
+        <item
+            android:icon="@drawable/ic_left_arrow"
+            android:title="Back to Home" />
+
+    </group>
+</menu>

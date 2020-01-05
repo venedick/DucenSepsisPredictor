@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_patient"
+    app:startDestination="@id/navigation_side_patient">
+
+    <fragment
+        android:id="@+id/navigation_side_patient"
+        android:name="com.ducen.predictor.view.patient.fragments.PatientFragment"
+        android:label="fragment_patient"
+        tools:layout="@layout/fragment_patient" />
+    <!--
+    <fragment
+        android:id="@+id/navigation_side_condition"
+        android:name="com.example.sepsis.test.View.Patient.Fragment.ConditionFragment"
+        android:label="fragment_condition"
+        tools:layout="@layout/fragment_condition" />
+
+    <fragment
+        android:id="@+id/navigation_side_allergy"
+        android:name="com.example.sepsis.test.View.Patient.Fragment.AllergyFragment"
+        android:label="fragment_allergy"
+        tools:layout="@layout/fragment_allergy" />-->
+
+</navigation>

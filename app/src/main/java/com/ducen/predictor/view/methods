@@ -1,0 +1,60 @@
+ /*void getCarePlanByPatientId() {
+        String patientId = "38";
+
+        Call<ResponseBody> call = r4AllergyIntoleranceRestService.getMedicationAdministrationByPatientId(patientId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+
+//                    if (r4AllergyIntoleranceService.checkExist(jsonObject)) {
+//                        List<R4Patient> list = r4AllergyIntoleranceService.(jsonObject);
+//                        R4Patient r4Patient = r4AllergyIntoleranceService.createR4Patient(jsonObject);
+//                        Log.d("TEST", "getCarePlanByPatientId : " + r4Patient.toString());
+//
+//                    } else {
+//                        Log.d("TEST", "ERROR - CONDITION DOES NOT EXIST. ");
+//                    }
+
+                } catch (Exception e) {
+                    Log.d("TEST", "Exception : " + e.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("TEST", t.toString());
+                call.cancel();
+            }
+        });
+    }*/
+
+
+    /*private void getAllPatient(){
+            Call<ResponseBody> call = r4PatientRestService.getAllPatient();
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    try {
+                        assert response.body() != null;
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        Log.d("TEST", "Inside HomeFragment()-getPatientData() PATIENT : " + jsonObject.toString());
+                        List<R4Patient> patientLists = r4PatientService.createR4PatientList(jsonObject);
+                        patientList.addAll(patientLists);
+                        rvPatients.setAdapter(patientAdapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+            patientAdapter = new PatientAdapter(patientList);
+            rvPatients.setAdapter(patientAdapter);
+        }*/

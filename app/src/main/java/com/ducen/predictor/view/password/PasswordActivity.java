@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.ducen.predictor.session.SessionManagerImpl;
 import com.ducen.predictor.view.R;
-import com.ducen.predictor.view.home.defaultdata.Session;
+import com.ducen.predictor.defaultdata.Session;
 import com.ducen.predictor.view.main.GetStartedActivity;
 import com.ducen.predictor.view.pincode.PincodeActivity;
 import com.ducen.predictor.view.verify.EmailVerificationActivity;

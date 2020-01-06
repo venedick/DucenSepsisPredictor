@@ -24,10 +24,10 @@ import android.widget.Toast;
 import com.ducen.predictor.model.RecentPatient;
 import com.ducen.predictor.r4.entity.R4Appointment;
 import com.ducen.predictor.r4.entity.R4Patient;
-import com.ducen.predictor.r4.rest.service.R4AppointmentRestServiceImpl;
-import com.ducen.predictor.r4.rest.service.R4PatientRestServiceImpl;
-import com.ducen.predictor.r4.service.R4AppointmentServiceImpl;
-import com.ducen.predictor.r4.service.R4PatientServiceImpl;
+import com.ducen.predictor.r4.converter.R4AppointmentConverterImpl;
+import com.ducen.predictor.r4.converter.R4PatientConverterImpl;
+import com.ducen.predictor.r4.webservice.R4AppointmentRestServiceImpl;
+import com.ducen.predictor.r4.webservice.R4PatientRestServiceImpl;
 import com.ducen.predictor.service.RecentPatientService;
 import com.ducen.predictor.view.R;
 import com.ducen.predictor.view.adapter.PatientAdapter;
@@ -58,8 +58,9 @@ public class HomeFragment extends Fragment {
     //list
     private List<RecentPatient> recentPatientList = new ArrayList<>();
 
-    private R4AppointmentServiceImpl r4AppointmentService;
-    private R4PatientServiceImpl r4PatientService;
+    private R4AppointmentConverterImpl r4AppointmentConverter;
+    private R4PatientConverterImpl r4PatientConverter;
+
     private R4PatientRestServiceImpl r4PatientRestService;
     private R4AppointmentRestServiceImpl r4AppointmentRestService;
     private RecentPatientService recentPatientService;
@@ -114,8 +115,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initClasses() {
-        this.r4PatientService = new R4PatientServiceImpl();
-        this.r4AppointmentService = new R4AppointmentServiceImpl();
+        this.r4PatientConverter = new R4PatientConverterImpl();
+        this.r4AppointmentConverter = new R4AppointmentConverterImpl();
 
         this.r4PatientRestService = new R4PatientRestServiceImpl(getContext());
         this.r4AppointmentRestService = new R4AppointmentRestServiceImpl(getContext());
@@ -204,6 +205,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (newText.equalsIgnoreCase("")) {
+                    initRecentPatientList();
+                }
                 return false;
             }
         });
@@ -291,8 +295,8 @@ public class HomeFragment extends Fragment {
                         Object object = new Object();
                         try {
                             JSONObject jsonObject = new JSONObject(responseBody.string());
-                            if (r4AppointmentService.checkExist(jsonObject)) {
-                                List<R4Appointment> r4AppointmentList = r4AppointmentService.createR4AppointmentList(jsonObject);
+                            if (r4AppointmentConverter.checkExist(jsonObject)) {
+                                List<R4Appointment> r4AppointmentList = r4AppointmentConverter.createR4AppointmentList(jsonObject);
                                 object = r4AppointmentList;
                             } else {
                                 object = false;
@@ -358,8 +362,8 @@ public class HomeFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(responseBody.string());
                             //check if practitioner exist
-                            if (r4PatientService.checkExist(jsonObject)) {
-                                List<R4Patient> r4PatientList = r4PatientService.createR4PatientList(jsonObject);
+                            if (r4PatientConverter.checkExist(jsonObject)) {
+                                List<R4Patient> r4PatientList = r4PatientConverter.createR4PatientList(jsonObject);
                                 object = r4PatientList.get(0);
                             } else {
                                 object = false;
@@ -427,8 +431,8 @@ public class HomeFragment extends Fragment {
                         Object object = new Object();
                         try {
                             JSONObject jsonObject = new JSONObject(responseBody.string());
-                            if (r4PatientService.checkExist(jsonObject)) {
-                                List<R4Patient> r4PatientList = r4PatientService.createR4PatientList(jsonObject);
+                            if (r4PatientConverter.checkExist(jsonObject)) {
+                                List<R4Patient> r4PatientList = r4PatientConverter.createR4PatientList(jsonObject);
                                 object = r4PatientList;
                             } else {
                                 object = false;
@@ -494,9 +498,9 @@ public class HomeFragment extends Fragment {
                         Object object = new Object();
                         try {
                             JSONObject jsonObject = new JSONObject(responseBody.string());
-                            if (r4AppointmentService.checkExist(jsonObject)) {
+                            if (r4AppointmentConverter.checkExist(jsonObject)) {
                                 Log.d("TEST", "Appointment exist. . ");
-                                List<R4Appointment> r4AppointmentList = r4AppointmentService.createR4AppointmentList(jsonObject);
+                                List<R4Appointment> r4AppointmentList = r4AppointmentConverter.createR4AppointmentList(jsonObject);
                                 object = r4AppointmentList.get(0);
                             } else {
                                 Log.d("TEST", "Appointment dont exist. . ");

@@ -3,11 +3,15 @@ package com.ducen.predictor.view.patient.condition;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,30 +21,59 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ducen.predictor.model.RecentPatientCondition;
+import com.ducen.predictor.model.Condition;
+import com.ducen.predictor.r4.converter.R4ConditionConverterImpl;
+import com.ducen.predictor.r4.entity.R4Condition;
+import com.ducen.predictor.r4.webservice.R4ConditionRestServiceImpl;
+import com.ducen.predictor.service.ConditionService;
 import com.ducen.predictor.view.R;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PatientConditionFragment extends Fragment {
 
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private R4ConditionRestServiceImpl r4ConditionRestService;
+    private R4ConditionConverterImpl r4ConditionConverter;
+    private ConditionService conditionService;
+
+
+    private List<Condition> conditionList;
+
     private TableLayout mTableLayout;
-    ProgressDialog mProgressBar;
+    private ProgressDialog mProgressBar;
 
     public PatientConditionFragment() {
         // Required empty public constructor
     }
 
-
-
     @SuppressLint("ResourceType")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_patient_condition, container, false);
+
+        initClasses();
+
+        initConditionList();
 
         //load
         mProgressBar = new ProgressDialog(getContext());
@@ -53,18 +86,117 @@ public class PatientConditionFragment extends Fragment {
         return view;
     }
 
+    private void initClasses() {
+        this.r4ConditionRestService = new R4ConditionRestServiceImpl(getContext());
+        this.r4ConditionConverter = new R4ConditionConverterImpl();
+        this.conditionService = new ConditionService();
+
+        this.conditionList = new ArrayList<>();
+    }
+
+    private void initUI() {
+
+    }
+
+    private void initConditionList() {
+        if (isNetworkAvailable()) {
+            conditionList.clear();
+            callGetAppointmentByPractitionerWebService();
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection. ", Toast.LENGTH_LONG).show();
+            //No Internet Connection, maybe load the cache
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
+    private void callGetAppointmentByPractitionerWebService() {
+        String patientId = "249128";
+        getConditionByPatientIdObservable(10, patientId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(Object object) {
+                        if (object.equals(false)) {
+                            Log.d("TEST", "No Appointments yet for the Practitioner. ");
+                        } else if (object.equals(0)) {
+                            Log.d("TEST", "Problem with Internet Connection. ");
+                        } else {
+                            List<R4Condition> r4ConditionList = (ArrayList) object;
+
+//                            conditionList = conditionService.createRecentPatientListBasedFromAppointmentList(r4AppointmentList);
+//
+//                            updateRecentPatientAdapter();
+//
+//                            List<String> patientIdList = recentPatientService.createPatientIdListBasedFromAppointmentList(r4AppointmentList);
+//                            callGetPatientByIdWebService(patientIdList);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private Observable<Object> getConditionByPatientIdObservable(int resultCount, String practitionerId) {
+        return r4ConditionRestService.getConditionByPatientId(resultCount, practitionerId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<ResponseBody, Object>() {
+                    @Override
+                    public Object apply(ResponseBody responseBody) throws Exception {
+                        Object object = new Object();
+                        try {
+                            JSONObject jsonObject = new JSONObject(responseBody.string());
+
+                            if (r4ConditionConverter.checkExist(jsonObject)) {
+                                List<R4Condition> r4AppointmentList = r4ConditionConverter.createR4ConditionList(jsonObject);
+                                object = r4AppointmentList;
+                            } else {
+                                object = false;
+                            }
+
+                        } catch (Exception e) {
+                            object = 0;
+                            e.printStackTrace();
+                        }
+                        return object;
+                    }
+                });
+    }
+
+
     private void loadData(View view) {
-        int leftRowMargin=0;
-        int topRowMargin=0;
-        int rightRowMargin=0;
+        int leftRowMargin = 0;
+        int topRowMargin = 0;
+        int rightRowMargin = 0;
         int bottomRowMargin = 0;
-        int textSize = 0, smallTextSize =0;
+        int textSize = 0, smallTextSize = 0;
 
         textSize = (int) getResources().getDimension(R.dimen.font_size_verysmall);
         smallTextSize = (int) getResources().getDimension(R.dimen.font_size_small);
 
         Conditions condition = new Conditions();
-        RecentPatientCondition[] data = condition.getCondition();
+        Condition[] data = condition.getCondition();
 
 
         int rows = data.length;
@@ -73,8 +205,8 @@ public class PatientConditionFragment extends Fragment {
         mTableLayout.removeAllViews();
 
         // -1 means heading row
-        for(int i = -1; i < rows; i ++) {
-            RecentPatientCondition row = null;
+        for (int i = -1; i < rows; i++) {
+            Condition row = null;
             if (i > -1)
                 row = data[i];
             else {
@@ -121,7 +253,7 @@ public class PatientConditionFragment extends Fragment {
             if (i == -1) {
                 tv2.setText("Clinical Status");
                 tv2.setBackgroundColor(Color.parseColor("#f7f7f7"));
-            }else {
+            } else {
                 tv2.setBackgroundColor(Color.parseColor("#ffffff"));
                 tv2.setTextColor(Color.parseColor("#000000"));
                 tv2.setText(row.getClinicalStatus());
@@ -201,7 +333,7 @@ public class PatientConditionFragment extends Fragment {
             TableLayout.LayoutParams trParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT);
             trParams.setMargins(leftRowMargin, topRowMargin, rightRowMargin, bottomRowMargin);
-            tr.setPadding(0,0,0,0);
+            tr.setPadding(0, 0, 0, 0);
             tr.setLayoutParams(trParams);
 
             tr.addView(tv);
@@ -247,7 +379,6 @@ public class PatientConditionFragment extends Fragment {
 
         }
     }
-
 
 
 }

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.ducen.predictor.view.home.defaultdata.Session;
+import com.ducen.predictor.defaultdata.Session;
 import com.ducen.predictor.view.login.LoginActivity;
 
 public class SessionManagerImpl implements SessionManager {

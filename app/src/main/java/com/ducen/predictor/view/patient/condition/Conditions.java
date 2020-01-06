@@ -1,12 +1,13 @@
 package com.ducen.predictor.view.patient.condition;
 
-import com.ducen.predictor.model.RecentPatientCondition;
+import com.ducen.predictor.model.Condition;
 
 public class Conditions {
-    public RecentPatientCondition[] getCondition() {
-        RecentPatientCondition[] data = new RecentPatientCondition[5];
+
+    public Condition[] getCondition() {
+        Condition[] data = new Condition[5];
         for(int i = 0; i < 5; i ++) {
-            RecentPatientCondition row = new RecentPatientCondition();
+            Condition row = new Condition();
             row.setCondition("Visual Disturbance");
             row.setClinicalStatus("Active");
             row.setVerificationStatus("Confirmed");
@@ -15,4 +16,5 @@ public class Conditions {
         }
         return data;
     }
+
 }

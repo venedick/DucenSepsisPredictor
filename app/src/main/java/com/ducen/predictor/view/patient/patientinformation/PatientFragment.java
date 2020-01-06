@@ -20,7 +20,6 @@ import com.ducen.predictor.view.R;
  */
 public class PatientFragment extends Fragment {
 
-
     public PatientFragment() {
         // Required empty public constructor
     }

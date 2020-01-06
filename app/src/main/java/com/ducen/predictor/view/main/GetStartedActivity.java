@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.ducen.predictor.view.home.defaultdata.ServerAddress;
-import com.ducen.predictor.view.home.defaultdata.Session;
+import com.ducen.predictor.defaultdata.ServerAddress;
+import com.ducen.predictor.defaultdata.Session;
 import com.ducen.predictor.session.SessionManagerImpl;
 import com.ducen.predictor.view.R;
 import com.ducen.predictor.view.login.LoginActivity;

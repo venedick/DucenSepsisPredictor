@@ -13,7 +13,7 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ducen.predictor.view.home.defaultdata.Session;
+import com.ducen.predictor.defaultdata.Session;
 import com.ducen.predictor.session.SessionManagerImpl;
 import com.ducen.predictor.view.login.LoginActivity;
 import com.ducen.predictor.view.pincode.PincodeActivity;

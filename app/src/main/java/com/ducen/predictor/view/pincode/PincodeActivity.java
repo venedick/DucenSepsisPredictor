@@ -309,9 +309,13 @@ public class PincodeActivity extends AppCompatActivity {
                             }
                         }
                         if (flag) {
-                            Log.i("Login", "Code is correct");
+
+                            String last_visit = sessionManager.getStringSession(Session.LAST_VISIT.toString());
+                            Log.i("Pincode Activity", "Last Visited : "+ last_visit);
                             sessionManager.createSession(Session.IS_LOGIN.toString(), true);
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            Intent i = new Intent(getApplicationContext(),Class.forName(last_visit));
+                            startActivity(i);
+                            finish();
                         } else {
                             Log.i("Login", "Code is wrong");
                             enterCode = "";
@@ -323,7 +327,7 @@ public class PincodeActivity extends AppCompatActivity {
                         }
                         reader.close();
                     } catch (Exception e) {
-                        Log.e("ReadWriteFile", "Unable to read the login.txt file." + e.toString());
+                        Log.e("ReadWriteFile", "Unable to read the file." + e.toString());
                     }
                 }
             } else {

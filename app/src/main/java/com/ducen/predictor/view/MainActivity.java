@@ -6,10 +6,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private SessionManagerImpl sessionManager;
     boolean doubleBackToExitPressedOnce = false;
     private Timer timer;
+    Handler handler;
+    Runnable r;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,30 +40,43 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_dashboard);
         NavigationUI.setupWithNavController(navView, navController);
+        handler = new Handler();
+        r = new Runnable() {
 
-        //test
+            @Override
+            public void run() {
+                Log.i("Main Activity", "Lock Session");
+                Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
+                if(log){
+                    Log.i("Main Activity","Visited : "+ MainActivity.class.getCanonicalName());
+                    sessionManager.createSession(Session.LAST_VISIT.toString(),MainActivity.class.getCanonicalName());
+                    Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                    finish();
+                }else{
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        };
+        startHandler();
+
     }
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        timer = new Timer();
-        Log.i("Main Activity", "Invoking logout timer");
-        LogOutTimerTask logoutTimeTask = new LogOutTimerTask();
-        timer.schedule(logoutTimeTask, 18000); //60000 per minutes
-
-        // If the screen is off then the device has been locked
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        boolean isScreenOn;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            isScreenOn = powerManager.isInteractive();
-        } else {
-            isScreenOn = powerManager.isScreenOn();
-        }
-
-        if (!isScreenOn) {
-            logoutTimeTask.run();
-        }
+    public void onUserInteraction() {
+        // TODO Auto-generated method stub
+        super.onUserInteraction();
+        stopHandler();//stop first and then start
+        startHandler();
+    }
+    public void stopHandler() {
+        handler.removeCallbacks(r);
+    }
+    public void startHandler() {
+        handler.postDelayed(r, 1*60*1000);
     }
 
     @Override
@@ -72,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (timer != null) {
             timer.cancel();
-            Log.i("Home Activity", "cancel timer");
+            Log.i("Main Activity", "cancel timer");
             timer = null;
         }
     }
@@ -95,25 +107,7 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    private class LogOutTimerTask extends TimerTask {
 
-        @Override
-        public void run() {
-            Log.i("Main Activity", "Lock Session");
-            Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
-            if(log){
-                Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                finish();
-            }else{
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                finish();
-            }
-        }
-    }
 
     private String getPractitionerId(){
         String practitionerId = "";

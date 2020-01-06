@@ -40,6 +40,9 @@ public enum Session {
     BASE_SERVER{
         public String toString(){ return "server"; }
     }
-
+    ,
+    LAST_VISIT{
+        public String toString(){ return "last_visit"; }
+    }
 }
 

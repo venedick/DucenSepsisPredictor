@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class R4MedicationRequestServiceImpl implements R4MedicationRequestService{
+public class R4MedicationRequestConverterImpl implements R4MedicationRequestConverter {
     @Override
     public boolean checkExist(JSONObject jsonObject) {
         boolean status = false;

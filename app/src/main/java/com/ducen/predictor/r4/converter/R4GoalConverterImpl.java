@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4GoalServiceImpl implements R4GoalService {
+public class R4GoalConverterImpl implements R4GoalConverter {
 
     @Override
     public boolean checkExist(JSONObject jsonObject) {

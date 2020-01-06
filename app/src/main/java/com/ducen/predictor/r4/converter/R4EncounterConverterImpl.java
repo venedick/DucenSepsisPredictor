@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4EncounterServiceImpl implements R4EncounterService {
+public class R4EncounterConverterImpl implements R4EncounterConverter {
 
     @Override
     public boolean checkExist(JSONObject jsonObject) {

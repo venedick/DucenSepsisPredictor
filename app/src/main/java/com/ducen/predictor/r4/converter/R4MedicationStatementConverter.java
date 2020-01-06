@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4MedicationStatementService {
+public interface R4MedicationStatementConverter {
 
     boolean checkExist(JSONObject jsonObject);
 

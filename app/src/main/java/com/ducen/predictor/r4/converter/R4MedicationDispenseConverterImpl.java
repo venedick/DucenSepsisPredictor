@@ -3,14 +3,14 @@ package com.ducen.predictor.r4.converter;
 import android.util.Log;
 
 import com.ducen.predictor.defaultdata.Properties;
-import com.ducen.predictor.r4.entity.R4MedicationAdministration;
+import com.ducen.predictor.r4.entity.R4MedicationDispense;
+import com.ducen.predictor.r4.types.Meta;
 import com.ducen.predictor.r4.types.Annotation;
 import com.ducen.predictor.r4.types.CodeableConcept;
 import com.ducen.predictor.r4.types.Coding;
 import com.ducen.predictor.r4.types.Dosage;
 import com.ducen.predictor.r4.types.DoseAndRate;
 import com.ducen.predictor.r4.types.Identifier;
-import com.ducen.predictor.r4.types.Meta;
 import com.ducen.predictor.r4.types.Performer;
 import com.ducen.predictor.r4.types.Period;
 import com.ducen.predictor.r4.types.Quantity;
@@ -19,6 +19,7 @@ import com.ducen.predictor.r4.types.Ratio;
 import com.ducen.predictor.r4.types.Reference;
 import com.ducen.predictor.r4.types.Repeat;
 import com.ducen.predictor.r4.types.SimpleQuantity;
+import com.ducen.predictor.r4.types.Substitution;
 import com.ducen.predictor.r4.types.Timing;
 
 import org.json.JSONArray;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4MedicationAdministrationServiceImpl implements R4MedicationAdministrationService {
+public class R4MedicationDispenseConverterImpl implements R4MedicationDispenseConverter {
 
     @Override
     public boolean checkExist(JSONObject jsonObject) {
@@ -49,8 +50,8 @@ public class R4MedicationAdministrationServiceImpl implements R4MedicationAdmini
     }
 
     @Override
-    public List<R4MedicationAdministration> createR4MedicationAdministrationList(JSONObject jsonObject) {
-        List<R4MedicationAdministration> r4MedicationAdministrationList = new ArrayList<>();
+    public List<R4MedicationDispense> createR4MedicationDispenseList(JSONObject jsonObject) {
+        List<R4MedicationDispense> medicationDispenseList = new ArrayList<>();
 
         try {
 
@@ -65,8 +66,11 @@ public class R4MedicationAdministrationServiceImpl implements R4MedicationAdmini
                     if (jsonResources.has(Properties.KEY_RESOURCE)) {
 
                         JSONObject jsonResource = jsonResources.getJSONObject(Properties.KEY_RESOURCE);
-                        R4MedicationAdministration r4MedicationAdministration = createR4MedicationAdministration(jsonResource);
-                        r4MedicationAdministrationList.add(r4MedicationAdministration);
+
+                        R4MedicationDispense r4MedicationDispense = createR4MedicationDispense(jsonResource);
+
+                        medicationDispenseList.add(r4MedicationDispense);
+
                     }
 
                 }
@@ -76,176 +80,211 @@ public class R4MedicationAdministrationServiceImpl implements R4MedicationAdmini
             Log.d("TEST", "createAllergyIntoleranceList Exception : " + e.toString());
         }
 
-        return r4MedicationAdministrationList;
+        return medicationDispenseList;
     }
 
     @Override
-    public R4MedicationAdministration createR4MedicationAdministration(JSONObject jsonObject) {
-        R4MedicationAdministration medicationAdministration = new R4MedicationAdministration();
+    public R4MedicationDispense createR4MedicationDispense(JSONObject jsonObject) {
+        R4MedicationDispense r4MedicationDispense = new R4MedicationDispense();
         try {
 
             //initialize META
             if (jsonObject.has(Properties.KEY_META)) {
                 JSONObject jsonMeta = jsonObject.getJSONObject(Properties.KEY_META);
-                Meta meta = createMeta(jsonMeta);
-                medicationAdministration.setMeta(meta);
+                Meta meta = createR4MetaPractitioner(jsonMeta);
+                r4MedicationDispense.setMeta(meta);
             }
 
             //initialize IDENTIFIER
             if (jsonObject.has(Properties.KEY_IDENTIFIER)) {
                 JSONArray jsonArrayIdentifier = jsonObject.getJSONArray(Properties.KEY_IDENTIFIER);
                 List<Identifier> listOfIdentifier = createIdentifierList(jsonArrayIdentifier);
-                medicationAdministration.setIdentifier(listOfIdentifier);
-            }
-
-            if (jsonObject.has(Properties.KEY_INSTANTIATES)) {
-                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_INSTANTIATES);
-                List<String> instantiates = createStringList(jsonArray);
-                medicationAdministration.setInstantiates(instantiates);
+                r4MedicationDispense.setIdentifier(listOfIdentifier);
             }
 
             //initialize partOf
             if (jsonObject.has(Properties.KEY_PART_OF)) {
                 JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_PART_OF);
                 List<Reference> partOf = createReferenceList(jsonArray);
-                medicationAdministration.setPartOf(partOf);
+                r4MedicationDispense.setPartOf(partOf);
             }
 
             //initialize status
             if (jsonObject.has(Properties.KEY_STATUS)) {
                 String status = jsonObject.getString(Properties.KEY_STATUS);
-                medicationAdministration.setStatus(status);
+                r4MedicationDispense.setStatus(status);
             }
 
-            //initialize statusReason
-            if (jsonObject.has(Properties.KEY_STATUS_REASON)) {
-                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_STATUS_REASON);
-                List<CodeableConcept> statusReason = createCodeableConceptList(jsonArray);
-                medicationAdministration.setStatusReason(statusReason);
+            //initialize statusReasonCodeableConcept
+            if (jsonObject.has(Properties.KEY_STATUS_REASON_CODEABLE_CONCEPT)) {
+                JSONObject jsonStatusReasonCodeableConcept = jsonObject.getJSONObject(Properties.KEY_STATUS_REASON_CODEABLE_CONCEPT);
+                CodeableConcept statusReasonCodeableConcept = createCodeableConcept(jsonStatusReasonCodeableConcept);
+                r4MedicationDispense.setStatusReasonCodeableConcept(statusReasonCodeableConcept);
+            }
+
+            //initialize statusReasonReference
+            if (jsonObject.has(Properties.KEY_STATUS_REASON_REFERENCE)) {
+                JSONObject jsonStatusReasonReference = jsonObject.getJSONObject(Properties.KEY_STATUS_REASON_REFERENCE);
+                Reference statusReasonReference = createReference(jsonStatusReasonReference);
+                r4MedicationDispense.setStatusReasonReference(statusReasonReference);
             }
 
             //initialize category
             if (jsonObject.has(Properties.KEY_CATEGORY)) {
                 JSONObject jsonCategory = jsonObject.getJSONObject(Properties.KEY_CATEGORY);
                 CodeableConcept category = createCodeableConcept(jsonCategory);
-                medicationAdministration.setCategory(category);
+                r4MedicationDispense.setCategory(category);
             }
 
-            //initialize statusReasonCodeableConcept
+            //initialize medicationCodeableConcept
             if (jsonObject.has(Properties.KEY_MEDICATION_CODEABLE_CONCEPT)) {
-                JSONObject jsonStatusReasonCodeableConcept = jsonObject.getJSONObject(Properties.KEY_MEDICATION_CODEABLE_CONCEPT);
-                CodeableConcept medicationCodeableConcept = createCodeableConcept(jsonStatusReasonCodeableConcept);
-                medicationAdministration.setMedicationCodeableConcept(medicationCodeableConcept);
+                JSONObject jsonMedicationCodeableConcept = jsonObject.getJSONObject(Properties.KEY_MEDICATION_CODEABLE_CONCEPT);
+                CodeableConcept medicationCodeableConcept = createCodeableConcept(jsonMedicationCodeableConcept);
+                r4MedicationDispense.setMedicationCodeableConcept(medicationCodeableConcept);
             }
 
             //initialize medicationReference
             if (jsonObject.has(Properties.KEY_MEDICATION_REFERENCE)) {
                 JSONObject jsonMedicationReference = jsonObject.getJSONObject(Properties.KEY_MEDICATION_REFERENCE);
                 Reference medicationReference = createReference(jsonMedicationReference);
-                medicationAdministration.setMedicationReference(medicationReference);
+                r4MedicationDispense.setMedicationReference(medicationReference);
             }
 
             //initialize subject
             if (jsonObject.has(Properties.KEY_SUBJECT)) {
                 JSONObject jsonSubject = jsonObject.getJSONObject(Properties.KEY_SUBJECT);
                 Reference subject = createReference(jsonSubject);
-                medicationAdministration.setSubject(subject);
+                r4MedicationDispense.setSubject(subject);
             }
 
             //initialize context
             if (jsonObject.has(Properties.KEY_CONTEXT)) {
                 JSONObject jsonContext = jsonObject.getJSONObject(Properties.KEY_CONTEXT);
                 Reference context = createReference(jsonContext);
-                medicationAdministration.setContext(context);
+                r4MedicationDispense.setContext(context);
             }
 
             //initialize supportingInformation
             if (jsonObject.has(Properties.KEY_SUPPORTING_INFORMATION)) {
                 JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_SUPPORTING_INFORMATION);
                 List<Reference> supportingInformation = createReferenceList(jsonArray);
-                medicationAdministration.setSupportingInformation(supportingInformation);
-            }
-
-            //initialize effectiveDateTime
-            if (jsonObject.has(Properties.KEY_EFFECTIVE_DATETIME)) {
-                String effectiveDateTime = jsonObject.getString(Properties.KEY_EFFECTIVE_DATETIME);
-                medicationAdministration.setEffectiveDateTime(effectiveDateTime);
-            }
-
-            //initialize effectivePeriod
-            if (jsonObject.has(Properties.KEY_EFFECTIVE_PERIOD)) {
-                JSONObject jsonEffectivePeriod = jsonObject.getJSONObject(Properties.KEY_EFFECTIVE_PERIOD);
-                Period effectivePeriod = createPeriod(jsonEffectivePeriod);
-                medicationAdministration.setEffectivePeriod(effectivePeriod);
+                r4MedicationDispense.setSupportingInformation(supportingInformation);
             }
 
             //initialize performer
             if (jsonObject.has(Properties.KEY_PERFORMER)) {
                 JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_PERFORMER);
                 List<Performer> performer = createPerformerList(jsonArray);
-                medicationAdministration.setPerformer(performer);
+                r4MedicationDispense.setPerformer(performer);
             }
 
-            //initialize reasonCode
-            if (jsonObject.has(Properties.KEY_REASON_CODE)) {
-                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_REASON_CODE);
-                List<CodeableConcept> reasonCode = createCodeableConceptList(jsonArray);
-                medicationAdministration.setReasonCode(reasonCode);
+            //initialize location
+            if (jsonObject.has(Properties.KEY_LOCATION)) {
+                JSONObject jsonLocation = jsonObject.getJSONObject(Properties.KEY_LOCATION);
+                Reference location = createReference(jsonLocation);
+                r4MedicationDispense.setLocation(location);
             }
 
-            //initialize reasonReference
-            if (jsonObject.has(Properties.KEY_REASON_REFERENCE)) {
-                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_REASON_REFERENCE);
-                List<Reference> reasonReference = createReferenceList(jsonArray);
-                medicationAdministration.setReasonReference(reasonReference);
+            //initialize authorizingPrescription
+            if (jsonObject.has(Properties.KEY_AUTHORIZING_PRESCRIPTION)) {
+                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_AUTHORIZING_PRESCRIPTION);
+                List<Reference> authorizingPrescription = createReferenceList(jsonArray);
+                r4MedicationDispense.setAuthorizingPrescription(authorizingPrescription);
             }
 
-            //initialize request
-            if (jsonObject.has(Properties.KEY_REQUEST)) {
-                JSONObject jsonRequest = jsonObject.getJSONObject(Properties.KEY_REQUEST);
-                Reference request = createReference(jsonRequest);
-                medicationAdministration.setRequest(request);
+            //initialize type
+            if (jsonObject.has(Properties.KEY_TYPE)) {
+                JSONObject jsonType = jsonObject.getJSONObject(Properties.KEY_TYPE);
+                CodeableConcept type = createCodeableConcept(jsonType);
+                r4MedicationDispense.setType(type);
             }
 
-            //initialize device
-            if (jsonObject.has(Properties.KEY_DEVICE)) {
-                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_DEVICE);
-                List<Reference> device = createReferenceList(jsonArray);
-                medicationAdministration.setDevice(device);
+            //initialize quantity
+            if (jsonObject.has(Properties.KEY_QUANTITY)) {
+                JSONObject jsonQuantity = jsonObject.getJSONObject(Properties.KEY_QUANTITY);
+                Quantity quantity = createQuantity(jsonQuantity);
+                r4MedicationDispense.setQuantity(quantity);
+            }
+
+            //initialize daysSupply
+            if (jsonObject.has(Properties.KEY_DAYS_SUPPLY)) {
+                JSONObject jsonDaysSupply = jsonObject.getJSONObject(Properties.KEY_DAYS_SUPPLY);
+                Quantity daysSupply = createQuantity(jsonDaysSupply);
+                r4MedicationDispense.setDaysSupply(daysSupply);
+            }
+
+            //initialize whenPrepared
+            if (jsonObject.has(Properties.KEY_WHEN_PREPARED)) {
+                String whenPrepared = jsonObject.getString(Properties.KEY_WHEN_PREPARED);
+                r4MedicationDispense.setWhenPrepared(whenPrepared);
+            }
+
+            //initialize whenHandedOver
+            if (jsonObject.has(Properties.KEY_WHEN_HANDED_OVER)) {
+                String whenHandedOver = jsonObject.getString(Properties.KEY_WHEN_HANDED_OVER);
+                r4MedicationDispense.setWhenHandedOver(whenHandedOver);
+            }
+
+            //initialize destination
+            if (jsonObject.has(Properties.KEY_DESTINATION)) {
+                JSONObject jsonDestination = jsonObject.getJSONObject(Properties.KEY_DESTINATION);
+                Reference destination = createReference(jsonDestination);
+                r4MedicationDispense.setDestination(destination);
+            }
+
+
+            //initialize receiver
+            if (jsonObject.has(Properties.KEY_RECEIVER)) {
+                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_RECEIVER);
+                List<Reference> receiver = createReferenceList(jsonArray);
+                r4MedicationDispense.setReceiver(receiver);
             }
 
             //initialize note
             if (jsonObject.has(Properties.KEY_NOTE)) {
                 JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_NOTE);
                 List<Annotation> note = createAnnotationList(jsonArray);
-                medicationAdministration.setNote(note);
+                r4MedicationDispense.setNote(note);
             }
 
-            //initialize dosage
-            if (jsonObject.has(Properties.KEY_DOSAGE)) {
-                JSONObject jsonDosage =  jsonObject.getJSONObject(Properties.KEY_DOSAGE);
-                Dosage dosage = createDosage(jsonDosage);
-                medicationAdministration.setDosage(dosage);
+            //initialize dosageInstruction
+            if (jsonObject.has(Properties.KEY_DOSAGE_INSTRUCTION)) {
+                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_DOSAGE_INSTRUCTION);
+                List<Dosage> dosageInstruction = createDosageList(jsonArray);
+                r4MedicationDispense.setDosageInstruction(dosageInstruction);
+            }
 
+            //initialize substitution
+            if (jsonObject.has(Properties.KEY_SUBSTITUTION)) {
+                JSONObject jsonSubstitution = jsonObject.getJSONObject(Properties.KEY_SUBSTITUTION);
+                Substitution substitution = createSubstitution(jsonSubstitution);
+                r4MedicationDispense.setSubstitution(substitution);
+            }
+
+            //initialize detectedIssue
+            if (jsonObject.has(Properties.KEY_DETECTED_ISSUE)) {
+                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_DETECTED_ISSUE);
+                List<Reference> detectedIssue = createReferenceList(jsonArray);
+                r4MedicationDispense.setDetectedIssue(detectedIssue);
             }
 
             //initialize eventHistory
             if (jsonObject.has(Properties.KEY_EVENT_HISTORY)) {
                 JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_EVENT_HISTORY);
                 List<Reference> eventHistory = createReferenceList(jsonArray);
-                medicationAdministration.setEventHistory(eventHistory);
+                r4MedicationDispense.setEventHistory(eventHistory);
             }
 
-//END
+//
 
         } catch (Exception e) {
             Log.d("TEST", "createR4AllergyIntolerance Exception : " + e.toString());
         }
-        return medicationAdministration;
+        return r4MedicationDispense;
     }
 
     @Override
-    public Meta createMeta(JSONObject jsonObject) {
+    public Meta createR4MetaPractitioner(JSONObject jsonObject) {
         Meta meta = new Meta("", "", "");
         try {
 
@@ -587,7 +626,6 @@ public class R4MedicationAdministrationServiceImpl implements R4MedicationAdmini
         return range;
     }
 
-    @Override
     public SimpleQuantity createSimpleQuantity(JSONObject jsonObject) {
         SimpleQuantity simpleQuantity = new SimpleQuantity("", "");
         try {
@@ -602,6 +640,41 @@ public class R4MedicationAdministrationServiceImpl implements R4MedicationAdmini
             Log.d("TEST", "createSimpleQuantity Exception : " + e.toString());
         }
         return simpleQuantity;
+    }
+
+    @Override
+    public Substitution createSubstitution(JSONObject jsonObject) {
+        Substitution substitution = new Substitution();
+        try {
+
+            if (jsonObject.has(Properties.KEY_WAS_SUBSTITUTED)) {
+                String wasSubstituted = jsonObject.getString(Properties.KEY_WAS_SUBSTITUTED);
+                substitution.setWasSubstituted(wasSubstituted);
+            }
+
+            if (jsonObject.has(Properties.KEY_TYPE)) {
+                JSONObject jsonType = jsonObject.getJSONObject(Properties.KEY_TYPE);
+                CodeableConcept type = createCodeableConcept(jsonType);
+                substitution.setType(type);
+            }
+
+            if (jsonObject.has(Properties.KEY_REASON)) {
+                JSONArray jsonReason = jsonObject.getJSONArray(Properties.KEY_REASON);
+                List<CodeableConcept> reason = createCodeableConceptList(jsonReason);
+                substitution.setReason(reason);
+            }
+
+            if (jsonObject.has(Properties.KEY_RESPONSIBLE_PARTY)) {
+                JSONArray jsonResponsibleParty = jsonObject.getJSONArray(Properties.KEY_RESPONSIBLE_PARTY);
+                List<Reference> responsibleParty = createReferenceList(jsonResponsibleParty);
+                substitution.setResponsibleParty(responsibleParty);
+            }
+
+        } catch (
+                Exception e) {
+            Log.d("TEST", "createSubstitution Exception : " + e.toString());
+        }
+        return substitution;
     }
 
     @Override
@@ -676,7 +749,11 @@ public class R4MedicationAdministrationServiceImpl implements R4MedicationAdmini
                 repeat.setPeriodUnit(periodUnit);
             }
 
-
+            if (jsonObject.has(Properties.KEY_DAY_OF_WEEK)) {
+                JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_DAY_OF_WEEK);
+                List<String> dayOfWeek = createStringList(jsonArray);
+                repeat.setDayOfWeek(dayOfWeek);
+            }
 
             if (jsonObject.has(Properties.KEY_TIME_OF_DAY)) {
                 JSONArray jsonArray = jsonObject.getJSONArray(Properties.KEY_TIME_OF_DAY);
@@ -963,6 +1040,7 @@ public class R4MedicationAdministrationServiceImpl implements R4MedicationAdmini
         return referenceList;
     }
 
+
     @Override
     public List<Performer> createPerformerList(JSONArray jsonArray) {
         List<Performer> performerList = new ArrayList<>();
@@ -976,6 +1054,21 @@ public class R4MedicationAdministrationServiceImpl implements R4MedicationAdmini
             Log.d("TEST", "createPerformerList Exception : " + e.toString());
         }
         return performerList;
+    }
+
+    @Override
+    public List<Dosage> createDosageList(JSONArray jsonArray) {
+        List<Dosage> dosageList = new ArrayList<>();
+        try {
+            for (int c = 0; c < jsonArray.length(); c++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(c);
+                Dosage dosage = createDosage(jsonObject);
+                dosageList.add(dosage);
+            }
+        } catch (Exception e) {
+            Log.d("TEST", "createPerformerList Exception : " + e.toString());
+        }
+        return dosageList;
     }
 
     @Override

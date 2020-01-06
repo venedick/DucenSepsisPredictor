@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4ObservationService {
+public interface R4ObservationConverter {
 
     boolean checkExist(JSONObject jsonObject);
 

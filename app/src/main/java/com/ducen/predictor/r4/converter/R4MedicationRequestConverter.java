@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4MedicationRequestService {
+public interface R4MedicationRequestConverter {
 
     boolean checkExist(JSONObject jsonObject);
 

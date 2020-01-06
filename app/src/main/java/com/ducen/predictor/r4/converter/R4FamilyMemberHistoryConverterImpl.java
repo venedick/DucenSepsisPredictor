@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4FamilyMemberHistoryServiceImpl implements R4FamilyMemberHistoryService {
+public class R4FamilyMemberHistoryConverterImpl implements R4FamilyMemberHistoryConverter {
     @Override
     public boolean checkExist(JSONObject jsonObject) {
         boolean status = false;

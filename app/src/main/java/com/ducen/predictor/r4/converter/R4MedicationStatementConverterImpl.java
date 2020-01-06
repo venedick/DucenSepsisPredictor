@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4MedicationStatementServiceImpl implements R4MedicationStatementService {
+public class R4MedicationStatementConverterImpl implements R4MedicationStatementConverter {
     @Override
     public boolean checkExist(JSONObject jsonObject) {
         boolean status = false;

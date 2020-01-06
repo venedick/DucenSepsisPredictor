@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4RiskAssessmentServiceImpl implements R4RiskAssessmentService {
+public class R4RiskAssessmentConverterImpl implements R4RiskAssessmentConverter {
     @Override
     public boolean checkExist(JSONObject jsonObject) {
         boolean status = false;

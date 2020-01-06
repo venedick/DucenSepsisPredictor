@@ -1,32 +1,34 @@
 package com.ducen.predictor.r4.converter;
 
-import com.ducen.predictor.r4.entity.R4Goal;
 import com.ducen.predictor.r4.types.Meta;
+import com.ducen.predictor.r4.types.Activity;
+import com.ducen.predictor.r4.types.Detail;
+import com.ducen.predictor.r4.entity.R4CarePlan;
 import com.ducen.predictor.r4.types.Annotation;
 import com.ducen.predictor.r4.types.CodeableConcept;
 import com.ducen.predictor.r4.types.Coding;
 import com.ducen.predictor.r4.types.Identifier;
 import com.ducen.predictor.r4.types.Period;
-import com.ducen.predictor.r4.types.Quantity;
-import com.ducen.predictor.r4.types.Range;
-import com.ducen.predictor.r4.types.Ratio;
 import com.ducen.predictor.r4.types.Reference;
-import com.ducen.predictor.r4.types.Target;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4GoalService {
+public interface R4CarePlanConverter {
 
     boolean checkExist(JSONObject jsonObject);
 
-    List<R4Goal> createR4GoalList(JSONObject jsonObject);
+    List<R4CarePlan> createR4CarePlanList(JSONObject jsonObject);
 
-    R4Goal createR4Goal(JSONObject jsonObject);
+    R4CarePlan createR4CarePlan(JSONObject jsonObject);
 
-    Meta createR4MetaPractitioner(JSONObject jsonObject);
+    Activity createR4Activity(JSONObject jsonObject);
+
+    Detail createR4Detail(JSONObject jsonObject);
+
+    Meta createMeta(JSONObject jsonObject);
 
     Annotation createAnnotation(JSONObject jsonObject);
 
@@ -40,13 +42,7 @@ public interface R4GoalService {
 
     Reference createReference(JSONObject jsonObject);
 
-    Quantity createQuantity(JSONObject jsonObject);
-
-    Range createRange(JSONObject jsonObject);
-
-    Ratio createRatio(JSONObject jsonObject);
-
-    Target createTarget(JSONObject jsonObject);
+    String createGoal(JSONObject jsonObject);
 
     List<Annotation> createAnnotationList(JSONArray jsonArray);
 
@@ -58,6 +54,13 @@ public interface R4GoalService {
 
     List<Reference> createReferenceList(JSONArray jsonArray);
 
-    List<Target> createTargetList(JSONArray jsonArray);
+    List<String> createStringList(JSONArray jsonArray);
+
+    List<Activity> createR4ActivityList(JSONArray jsonArray);
+
+    List<String> createGoalList(JSONArray jsonArray);
+
+
+
 
 }

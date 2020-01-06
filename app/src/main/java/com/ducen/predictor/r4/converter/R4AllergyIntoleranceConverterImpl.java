@@ -19,7 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4AllergyIntoleranceServiceImpl implements R4AllergyIntoleranceService{
+public class R4AllergyIntoleranceConverterImpl implements R4AllergyIntoleranceConverter {
 
     @Override
     public boolean checkExist(JSONObject jsonObject) {

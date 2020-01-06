@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4RiskAssessmentService {
+public interface R4RiskAssessmentConverter {
 
     boolean checkExist(JSONObject jsonObject);
 

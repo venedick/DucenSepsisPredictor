@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4ImmunizationServiceImpl implements R4ImmunizationService {
+public class R4ImmunizationConverterImpl implements R4ImmunizationConverter {
 
     @Override
     public boolean checkExist(JSONObject jsonObject) {

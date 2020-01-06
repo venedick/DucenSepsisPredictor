@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4AllergyIntoleranceService {
+public interface R4AllergyIntoleranceConverter {
 
     boolean checkExist(JSONObject jsonObject);
 

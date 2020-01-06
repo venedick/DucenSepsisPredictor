@@ -1,29 +1,34 @@
 package com.ducen.predictor.r4.converter;
 
-import com.ducen.predictor.r4.entity.R4DiagnosticReport;
-import com.ducen.predictor.r4.types.Media;
+import com.ducen.predictor.r4.entity.R4Immunization;
 import com.ducen.predictor.r4.types.Meta;
-import com.ducen.predictor.r4.types.Attachment;
+import com.ducen.predictor.r4.types.Annotation;
 import com.ducen.predictor.r4.types.CodeableConcept;
 import com.ducen.predictor.r4.types.Coding;
 import com.ducen.predictor.r4.types.Identifier;
 import com.ducen.predictor.r4.types.Period;
+import com.ducen.predictor.r4.types.Quantity;
+import com.ducen.predictor.r4.types.Range;
+import com.ducen.predictor.r4.types.Ratio;
 import com.ducen.predictor.r4.types.Reference;
+import com.ducen.predictor.r4.types.Target;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4DiagnosticReportService {
+public interface R4ImmunizationConverter {
 
     boolean checkExist(JSONObject jsonObject);
 
-    List<R4DiagnosticReport> createR4DiagnosticReportList(JSONObject jsonObject);
+    List<R4Immunization> createR4ImmunizationList(JSONObject jsonObject);
 
-    R4DiagnosticReport createR4DiagnosticReport(JSONObject jsonObject);
+    R4Immunization createR4Immunization(JSONObject jsonObject);
 
     Meta createR4MetaPractitioner(JSONObject jsonObject);
+
+    Annotation createAnnotation(JSONObject jsonObject);
 
     CodeableConcept createCodeableConcept(JSONObject jsonObject);
 
@@ -35,13 +40,15 @@ public interface R4DiagnosticReportService {
 
     Reference createReference(JSONObject jsonObject);
 
-    Attachment createAttachment(JSONObject jsonObject);
+    Quantity createQuantity(JSONObject jsonObject);
 
-    Media createR4Media(JSONObject jsonObject);
+    Range createRange(JSONObject jsonObject);
 
-    List<Attachment> createAttachmentList(JSONArray jsonArray);
+    Ratio createRatio(JSONObject jsonObject);
 
-    List<Media> createR4MediaList(JSONArray jsonArray);
+    Target createTarget(JSONObject jsonObject);
+
+    List<Annotation> createAnnotationList(JSONArray jsonArray);
 
     List<Identifier> createIdentifierList(JSONArray jsonArray);
 
@@ -50,5 +57,7 @@ public interface R4DiagnosticReportService {
     List<CodeableConcept> createCodeableConceptList(JSONArray jsonArray);
 
     List<Reference> createReferenceList(JSONArray jsonArray);
+
+    List<Target> createTargetList(JSONArray jsonArray);
 
 }

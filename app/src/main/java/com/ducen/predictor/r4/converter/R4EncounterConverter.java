@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4EncounterService {
+public interface R4EncounterConverter {
 
     boolean checkExist(JSONObject jsonObject);
 

@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4FamilyMemberHistoryService {
+public interface R4FamilyMemberHistoryConverter {
 
     boolean checkExist(JSONObject jsonObject);
 

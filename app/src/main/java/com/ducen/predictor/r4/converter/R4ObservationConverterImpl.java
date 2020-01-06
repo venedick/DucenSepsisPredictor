@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4ObservationServiceImpl implements R4ObservationService {
+public class R4ObservationConverterImpl implements R4ObservationConverter {
 
     @Override
     public boolean checkExist(JSONObject jsonObject) {

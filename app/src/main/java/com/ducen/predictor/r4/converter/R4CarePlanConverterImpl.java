@@ -21,7 +21,7 @@ package com.ducen.predictor.r4.converter;
         import java.util.ArrayList;
         import java.util.List;
 
-public class R4CarePlanServiceImpl implements R4CarePlanService {
+public class R4CarePlanConverterImpl implements R4CarePlanConverter {
 
     @Override
     public boolean checkExist(JSONObject jsonObject) {

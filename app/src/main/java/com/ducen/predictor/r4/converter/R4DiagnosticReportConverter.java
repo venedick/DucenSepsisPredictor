@@ -1,10 +1,9 @@
 package com.ducen.predictor.r4.converter;
 
+import com.ducen.predictor.r4.entity.R4DiagnosticReport;
+import com.ducen.predictor.r4.types.Media;
 import com.ducen.predictor.r4.types.Meta;
-import com.ducen.predictor.r4.types.Activity;
-import com.ducen.predictor.r4.types.Detail;
-import com.ducen.predictor.r4.entity.R4CarePlan;
-import com.ducen.predictor.r4.types.Annotation;
+import com.ducen.predictor.r4.types.Attachment;
 import com.ducen.predictor.r4.types.CodeableConcept;
 import com.ducen.predictor.r4.types.Coding;
 import com.ducen.predictor.r4.types.Identifier;
@@ -16,21 +15,15 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4CarePlanService {
+public interface R4DiagnosticReportConverter {
 
     boolean checkExist(JSONObject jsonObject);
 
-    List<R4CarePlan> createR4CarePlanList(JSONObject jsonObject);
+    List<R4DiagnosticReport> createR4DiagnosticReportList(JSONObject jsonObject);
 
-    R4CarePlan createR4CarePlan(JSONObject jsonObject);
+    R4DiagnosticReport createR4DiagnosticReport(JSONObject jsonObject);
 
-    Activity createR4Activity(JSONObject jsonObject);
-
-    Detail createR4Detail(JSONObject jsonObject);
-
-    Meta createMeta(JSONObject jsonObject);
-
-    Annotation createAnnotation(JSONObject jsonObject);
+    Meta createR4MetaPractitioner(JSONObject jsonObject);
 
     CodeableConcept createCodeableConcept(JSONObject jsonObject);
 
@@ -42,9 +35,13 @@ public interface R4CarePlanService {
 
     Reference createReference(JSONObject jsonObject);
 
-    String createGoal(JSONObject jsonObject);
+    Attachment createAttachment(JSONObject jsonObject);
 
-    List<Annotation> createAnnotationList(JSONArray jsonArray);
+    Media createR4Media(JSONObject jsonObject);
+
+    List<Attachment> createAttachmentList(JSONArray jsonArray);
+
+    List<Media> createR4MediaList(JSONArray jsonArray);
 
     List<Identifier> createIdentifierList(JSONArray jsonArray);
 
@@ -53,14 +50,5 @@ public interface R4CarePlanService {
     List<CodeableConcept> createCodeableConceptList(JSONArray jsonArray);
 
     List<Reference> createReferenceList(JSONArray jsonArray);
-
-    List<String> createStringList(JSONArray jsonArray);
-
-    List<Activity> createR4ActivityList(JSONArray jsonArray);
-
-    List<String> createGoalList(JSONArray jsonArray);
-
-
-
 
 }

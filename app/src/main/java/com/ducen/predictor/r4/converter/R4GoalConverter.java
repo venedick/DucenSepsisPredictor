@@ -1,6 +1,6 @@
 package com.ducen.predictor.r4.converter;
 
-import com.ducen.predictor.r4.entity.R4Immunization;
+import com.ducen.predictor.r4.entity.R4Goal;
 import com.ducen.predictor.r4.types.Meta;
 import com.ducen.predictor.r4.types.Annotation;
 import com.ducen.predictor.r4.types.CodeableConcept;
@@ -18,13 +18,13 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface R4ImmunizationService {
+public interface R4GoalConverter {
 
     boolean checkExist(JSONObject jsonObject);
 
-    List<R4Immunization> createR4ImmunizationList(JSONObject jsonObject);
+    List<R4Goal> createR4GoalList(JSONObject jsonObject);
 
-    R4Immunization createR4Immunization(JSONObject jsonObject);
+    R4Goal createR4Goal(JSONObject jsonObject);
 
     Meta createR4MetaPractitioner(JSONObject jsonObject);
 

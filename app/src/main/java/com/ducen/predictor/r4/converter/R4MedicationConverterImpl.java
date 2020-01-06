@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class R4MedicationServiceImpl implements R4MedicationService {
+public class R4MedicationConverterImpl implements R4MedicationConverter {
 
     @Override
     public boolean checkExist(JSONObject jsonObject) {

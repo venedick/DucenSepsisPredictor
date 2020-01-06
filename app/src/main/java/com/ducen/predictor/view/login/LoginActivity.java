@@ -23,12 +23,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ducen.predictor.view.home.defaultdata.Session;
+import com.ducen.predictor.defaultdata.Session;
 import com.ducen.predictor.session.SessionManagerImpl;
 import com.ducen.predictor.view.MainActivity;
 import com.ducen.predictor.view.R;
 import com.ducen.predictor.view.main.GetStartedActivity;
-import com.ducen.predictor.view.password.PasswordActivity;
 import com.ducen.predictor.view.pincode.PincodeActivity;
 
 import java.io.BufferedReader;

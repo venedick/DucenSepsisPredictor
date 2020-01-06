@@ -20,10 +20,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ducen.predictor.view.home.defaultdata.Session;
+import com.ducen.predictor.defaultdata.Session;
 import com.ducen.predictor.r4.entity.R4Practitioner;
-import com.ducen.predictor.r4.rest.service.R4PractitionerRestServiceImpl;
-import com.ducen.predictor.r4.service.R4PractitionerServiceImpl;
+import com.ducen.predictor.r4.converter.R4PractitionerConverterImpl;
+import com.ducen.predictor.r4.webservice.R4PractitionerRestServiceImpl;
 import com.ducen.predictor.session.SessionManagerImpl;
 import com.ducen.predictor.view.R;
 import com.ducen.predictor.view.main.GetStartedActivity;
@@ -45,7 +45,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
     private CompositeDisposable compositeDisposable;
 
     //services
-    private R4PractitionerServiceImpl r4PractitionerService;
+    private R4PractitionerConverterImpl r4PractitionerService;
 
     //rest services
     private R4PractitionerRestServiceImpl r4PractitionerRestServiceImpl;
@@ -117,7 +117,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
 
         r4PractitionerRestServiceImpl = new R4PractitionerRestServiceImpl(getApplicationContext(), serverAddressFromSession);
 
-        r4PractitionerService = new R4PractitionerServiceImpl();
+        r4PractitionerService = new R4PractitionerConverterImpl();
         sessionManager = new SessionManagerImpl(getApplicationContext());
         compositeDisposable = new CompositeDisposable();
     }

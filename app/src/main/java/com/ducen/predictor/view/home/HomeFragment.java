@@ -32,7 +32,7 @@ import com.ducen.predictor.service.RecentPatientService;
 import com.ducen.predictor.view.R;
 import com.ducen.predictor.view.adapter.PatientAdapter;
 import com.ducen.predictor.view.adapter.RecentPatientAdapter;
-import com.ducen.predictor.view.patient.PatientActivity;
+import com.ducen.predictor.view.patient.patientinformation.PatientActivity;
 
 import org.json.JSONObject;
 

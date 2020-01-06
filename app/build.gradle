@@ -40,19 +40,22 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
     //retrofit dep
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     //okhttp dep
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
 
     //rxjava dep
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.13'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
 
-    //dependencies for rest api
+    //emdk plugin
+    //noinspection GradleDynamicVersion
+    compileOnly 'com.symbol:emdk:7.4+'
+    implementation 'com.loopj.android:android-async-http:1.4.10'
 
 }
 apply plugin: "androidx.navigation.safeargs"

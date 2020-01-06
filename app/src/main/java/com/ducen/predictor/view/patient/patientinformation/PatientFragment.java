@@ -1,4 +1,4 @@
-package com.ducen.predictor.view.patient.fragments;
+package com.ducen.predictor.view.patient.patientinformation;
 
 
 import android.os.Bundle;
@@ -13,12 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ducen.predictor.model.RecentPatient;
-import com.ducen.predictor.r4.entity.R4Patient;
-import com.ducen.predictor.r4.types.HumanName;
 import com.ducen.predictor.view.R;
-import com.ducen.predictor.view.patient.PatientActivity;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,7 +85,7 @@ public class PatientFragment extends Fragment {
     }
 
 
-    String checkNull(String value) {
+    private String checkNull(String value) {
         if (value == null) {
             return "Default";
         } else if (value.equalsIgnoreCase("")) {

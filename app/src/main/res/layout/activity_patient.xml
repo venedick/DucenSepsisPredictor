@@ -24,7 +24,6 @@
         app:headerLayout="@layout/drawer_navigation_header"
         app:menu="@menu/menu_nav_side"
         app:itemIconTint="@color/menuIconBlue"
-        app:itemTextColor="@color/menuTextBlack"
-        app:itemBackground="@color/selector_sidemenu_item"/>
+        app:itemTextColor="@color/menuTextBlack"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

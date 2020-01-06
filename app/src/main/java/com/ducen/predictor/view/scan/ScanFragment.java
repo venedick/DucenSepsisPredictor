@@ -10,10 +10,14 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 //EMDK
@@ -54,8 +58,9 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
     private BarcodeManager barcodeManager = null;
     private Scanner scanner = null;
 
-    private TextView barCodeStatus = null;
-    private TextView barCodeData = null;
+    private TextView tv_barCodeStatus = null;
+    private TextView tv_barCodeData = null;
+    private ImageButton btn_SoftScan = null;
 
     private List<ScannerInfo> deviceList = null;
     private int scannerIndex = 0;
@@ -72,12 +77,12 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: start");
 
-        if(emdkManager == null){
+        if (emdkManager == null) {
             EMDKResults results = EMDKManager.getEMDKManager(getActivity().getApplicationContext(), this);
 
 
             if (results.statusCode != EMDKResults.STATUS_CODE.SUCCESS) {
-                barCodeStatus.setText("EMDKManager object request failed!");
+                tv_barCodeStatus.setText("EMDKManager object request failed!");
 
             }
         }
@@ -94,20 +99,65 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_scan, container, false);
 
-        barCodeStatus = view.findViewById(R.id.barCodeStatus);
-        barCodeData = view.findViewById(R.id.barCodeData);
+        tv_barCodeStatus = view.findViewById(R.id.tv_barCodeStatus);
+        tv_barCodeData = view.findViewById(R.id.tv_barCodeData);
+        btn_SoftScan = view.findViewById(R.id.btn_soft_scan);
 
+        //Soft Scan Triggers
+        btn_SoftScan.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.d(TAG, "onTouch: btn_SoftScan pressed");
+                        startSoftScan();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Log.d(TAG, "onTouch: btn_SoftScan released");
+                        stopSoftScan();
+                        break;
+                }
+                return false;
+            }
+        });
 
         return view;
+    }
 
+    private void startSoftScan() {
 
+        if (scanner != null) {
+            try {
+                if (scanner.isReadPending()) {
+                    // Cancel the pending read.
+                    scanner.cancelRead();
+                }
+                scanner.triggerType = TriggerType.SOFT_ONCE;
+                //scanner.read();
+            } catch (ScannerException e) {
+                Log.d(TAG, "softScan: ERROR:: "+ e.getMessage());
+            }
+        }
+    }
+    private void stopSoftScan() {
+        if (scanner != null) {
+            try {
+                if (scanner.isReadPending()) {
+                    // Cancel the pending read.
+                    scanner.cancelRead();
+                }
+                scanner.triggerType = TriggerType.HARD;
+            } catch (ScannerException e) {
+                Log.d(TAG, "softScan: ERROR:: "+ e.getMessage());
+            }
+        }
     }
 
     @Override
     public void onOpened(EMDKManager emdkManager) {
         Log.d(TAG, "onOpened");
 
-        barCodeStatus.setText("EMDK open success!");
+        tv_barCodeStatus.setText("EMDK open success!");
         this.emdkManager = emdkManager;
 
         barcodeManager = (BarcodeManager) emdkManager.getInstance(FEATURE_TYPE.BARCODE);
@@ -133,7 +183,7 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
             emdkManager.release();
             emdkManager = null;
         }
-        barCodeStatus.setText("EMDK closed unexpectedly! Please close and restart the application.");
+        tv_barCodeStatus.setText("EMDK closed unexpectedly! Please close and restart the application.");
     }
 
     @Override
@@ -142,9 +192,6 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
             ArrayList<ScanData> scanData = scanDataCollection.getScanData();
             for (ScanData data : scanData) {
 
-                String dataString = "UDI: " + data.getData();
-                Log.d(TAG, "onData: " + dataString);
-                barCodeData.setText(dataString);
                 new AsyncDataUpdate().execute(data.getData());
             }
         }
@@ -153,6 +200,7 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
     @Override
     public void onStatus(StatusData statusData) {
         ScannerStates state = statusData.getState();
+        Log.d(TAG, "onStatus: state:: " + state);
         switch (state) {
             case IDLE:
                 statusString = "Scanner is enabled and idle...";
@@ -262,10 +310,10 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
 
                 } catch (ScannerException e) {
 
-                    barCodeStatus.setText(e.getMessage());
+                    tv_barCodeStatus.setText(e.getMessage());
                 }
             } else {
-                barCodeStatus.setText("Failed to initialize the scanner device.");
+                tv_barCodeStatus.setText("Failed to initialize the scanner device.");
             }
         }
         Log.d(TAG, "initScanner: end");
@@ -284,7 +332,7 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
 
             } catch (Exception e) {
 
-                barCodeStatus.setText(e.getMessage());
+                tv_barCodeStatus.setText(e.getMessage());
             }
 
             try {
@@ -293,14 +341,14 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
 
             } catch (Exception e) {
 
-                barCodeStatus.setText(e.getMessage());
+                tv_barCodeStatus.setText(e.getMessage());
             }
 
             try {
                 scanner.release();
             } catch (Exception e) {
 
-                barCodeStatus.setText(e.getMessage());
+                tv_barCodeStatus.setText(e.getMessage());
             }
 
             scanner = null;
@@ -318,9 +366,12 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
             return params[0];
         }
 
-        /*protected void onPostExecute(String result) {
+        protected void onPostExecute(String result) {
+            String dataString = "UDI: " + result;
 
-            if (result != null)
+            Log.d(TAG, "onPostExecute: result  " + dataString);
+            tv_barCodeData.setText(dataString);
+            /*if (result != null)
             {
                 String url = "https://r2.smarthealthit.org/Device?udi=" + result + "&_format=json";
 
@@ -328,7 +379,7 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
 
                     @Override
                     public void onPreProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
-                        barCodeStatus.setText("Checking match..");
+                        tv_barCodeStatus.setText("Checking match..");
                     }
 
                     @Override
@@ -353,7 +404,7 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            barCodeData.append(e.toString());
+                            tv_barCodeData.append(e.toString());
                             //NEED TO CREATE DIALOG FRAGMENT
                         }
 
@@ -366,8 +417,8 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
                         //NEED TO CREATE DIALOG FRAGMENT
                     }
                 });
-            }
-        }*/
+            }*/
+        }
     }
 
     private class AsyncStatusUpdate extends AsyncTask<String, Void, String> {
@@ -381,7 +432,7 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
         @Override
         protected void onPostExecute(String result) {
 
-            barCodeStatus.setText(result);
+            tv_barCodeStatus.setText(result);
         }
     }
 

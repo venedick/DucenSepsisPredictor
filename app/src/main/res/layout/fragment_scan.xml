@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".scan.ScanFragment">
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/btn_soft_scan"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:padding="8dp"
-        android:src="@drawable/icon_barcode"/>
+        android:background="?selectableItemBackgroundBorderless"
+        android:foreground="@drawable/icon_barcode"
+        android:padding="8dp" />
 
     <TextView
-        android:id="@+id/barCodeStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/string_scan_patient"
         android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="#000000"/>
+        android:textSize="40sp" />
+
     <TextView
-        android:id="@+id/barCodeData"
+        android:id="@+id/tv_barCodeStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="#000000"/>
+        android:text="@string/string_scan_patient"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_barCodeData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
 </LinearLayout>

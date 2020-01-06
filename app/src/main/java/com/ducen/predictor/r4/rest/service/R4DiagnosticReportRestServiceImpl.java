@@ -8,10 +8,10 @@ import retrofit2.Call;
 
 public class R4DiagnosticReportRestServiceImpl {
 
-    R4DiagnosticReportRestService r4DiagnosticReportRestService = R4APIClient.getClient().create(R4DiagnosticReportRestService.class);
-
-    public Call<ResponseBody> getDiagnosticReportByPatientID(String id) {
-        return r4DiagnosticReportRestService.getDiagnosticReportByPatientID(id);
-    }
+//    R4DiagnosticReportRestService r4DiagnosticReportRestService = R4APIClient.getClient().create(R4DiagnosticReportRestService.class);
+//
+//    public Call<ResponseBody> getDiagnosticReportByPatientID(String id) {
+//        return r4DiagnosticReportRestService.getDiagnosticReportByPatientID(id);
+//    }
 
 }

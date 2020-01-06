@@ -3,13 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ducen.predictor.view">
     <!-- rest api permission -->
+    <uses-permission android:name="com.symbol.emdk.permission.EMDK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.symbol.emdk.permission.EMDK" />
-
-
 
     <application
         android:allowBackup="true"
@@ -20,11 +18,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <uses-library android:name="com.symbol.emdk"/>
-
+        <activity android:name=".scan.ScanActivity" />
         <activity android:name=".main.GetStartedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,14 +30,19 @@
         <activity android:name=".pincode.PincodeActivity" />
         <activity android:name=".verify.EmailVerificationActivity" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".patient.PatientActivity" />
-        <activity android:name=".MainActivity"
+        <activity android:name=".patient.patientinformation.PatientActivity" />
+        <activity
+            android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
-            <!--<intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -75,4 +75,6 @@
     <string name="no">NO</string>
     <string name="get_started">GET STARTED</string>
     <string name="string_test">TEST</string>
+    <string name="barcode_status">BARCODE STATUS</string>
+    <string name="barcode_data">BARCODE DATA</string>
 </resources>

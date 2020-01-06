@@ -7,20 +7,20 @@
 
     <fragment
         android:id="@+id/navigation_side_patient"
-        android:name="com.ducen.predictor.view.patient.fragments.PatientFragment"
+        android:name="com.ducen.predictor.view.patient.patientinformation.PatientFragment"
         android:label="fragment_patient"
         tools:layout="@layout/fragment_patient" />
-    <!--
+
     <fragment
         android:id="@+id/navigation_side_condition"
-        android:name="com.example.sepsis.test.View.Patient.Fragment.ConditionFragment"
+        android:name="com.ducen.predictor.view.patient.condition.PatientConditionFragment"
         android:label="fragment_condition"
-        tools:layout="@layout/fragment_condition" />
+        tools:layout="@layout/fragment_patient_condition" />
 
     <fragment
         android:id="@+id/navigation_side_allergy"
-        android:name="com.example.sepsis.test.View.Patient.Fragment.AllergyFragment"
+        android:name="com.ducen.predictor.view.patient.allergy.PatientAllergyFragment"
         android:label="fragment_allergy"
-        tools:layout="@layout/fragment_allergy" />-->
+        tools:layout="@layout/fragment_patient_allergy" />
 
 </navigation>

@@ -12,10 +12,19 @@
         android:layout_height="180dp"
         android:padding="8dp"
         android:src="@drawable/icon_barcode"/>
+
     <TextView
+        android:id="@+id/barCodeStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/string_scan_patient"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#000000"/>
+    <TextView
+        android:id="@+id/barCodeData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="16sp"
         android:textColor="#000000"/>

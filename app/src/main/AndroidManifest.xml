@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.symbol.emdk.permission.EMDK" />
+
+
 
     <application
         android:allowBackup="true"
@@ -17,6 +20,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+        <uses-library android:name="com.symbol.emdk"/>
+
         <activity android:name=".main.GetStartedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

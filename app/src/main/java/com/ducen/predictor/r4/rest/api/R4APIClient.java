@@ -21,9 +21,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class R4APIClient {
 
-    private static Retrofit retrofit = null;
+    private  Retrofit retrofit = null;
 
-    public static Retrofit getClient() {
+    private Context context = null;
+
+    public R4APIClient(Context context) {
+        this.context = context;
+    }
+
+
+    public Retrofit getClient() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -33,15 +40,15 @@ public class R4APIClient {
             retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    //.baseUrl(getServerAddressFromFile())
-                    .baseUrl(ServerAddress.R4_BASE_URL.toString())
+                    .baseUrl(getServerAddressFromFile())
+//                    .baseUrl(ServerAddress.R4_BASE_URL.toString())
                     .client(client)
                     .build();
         }
         return retrofit;
     }
 
-    private static String getServerAddressFromFile(Context context){
+    private String getServerAddressFromFile(){
         String address = "";
         try {
             File testFile = new File(context.getExternalFilesDir(null), "ducensepsis.txt");

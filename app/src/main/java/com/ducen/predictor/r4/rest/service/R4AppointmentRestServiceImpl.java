@@ -1,5 +1,7 @@
 package com.ducen.predictor.r4.rest.service;
 
+import android.content.Context;
+
 import com.ducen.predictor.r4.rest.api.R4APIClient;
 
 import io.reactivex.Observable;
@@ -10,7 +12,12 @@ import retrofit2.Call;
 
 public class R4AppointmentRestServiceImpl {
 
-    private R4AppointmentRestService r4AppointmentRestService = R4APIClient.getClient().create(R4AppointmentRestService.class);
+    private R4AppointmentRestService r4AppointmentRestService;
+
+    public R4AppointmentRestServiceImpl(Context context) {
+        R4APIClient r4APIClient = new R4APIClient(context);
+        this.r4AppointmentRestService = r4APIClient.getClient().create(R4AppointmentRestService.class);
+    }
 
     public Observable<ResponseBody> getAppointmentByPractitioner(int resultCount, String practitioner) {
         return r4AppointmentRestService.getAppointmentByPractitioner(resultCount, practitioner)

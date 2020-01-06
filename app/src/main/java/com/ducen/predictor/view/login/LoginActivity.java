@@ -264,8 +264,6 @@ public class LoginActivity extends AppCompatActivity {
     void validateLogin(String username, String password) {
         try {
 
-            username = "vtang"; // tj test, delete when production
-
             File testFile = new File(this.getExternalFilesDir(null), "ducensepsis.txt");
             Log.d("Login Activity", "Check file");
             String line, user, pass;

@@ -24,14 +24,10 @@ import android.widget.Toast;
 import com.ducen.predictor.model.RecentPatient;
 import com.ducen.predictor.r4.entity.R4Appointment;
 import com.ducen.predictor.r4.entity.R4Patient;
-import com.ducen.predictor.r4.entity.R4Practitioner;
 import com.ducen.predictor.r4.rest.service.R4AppointmentRestServiceImpl;
 import com.ducen.predictor.r4.rest.service.R4PatientRestServiceImpl;
 import com.ducen.predictor.r4.service.R4AppointmentServiceImpl;
 import com.ducen.predictor.r4.service.R4PatientServiceImpl;
-import com.ducen.predictor.r4.types.Address;
-import com.ducen.predictor.r4.types.ContactPoint;
-import com.ducen.predictor.r4.types.HumanName;
 import com.ducen.predictor.service.RecentPatientService;
 import com.ducen.predictor.view.R;
 import com.ducen.predictor.view.adapter.PatientAdapter;
@@ -121,7 +117,7 @@ public class HomeFragment extends Fragment {
         this.r4PatientService = new R4PatientServiceImpl();
         this.r4PatientRestService = new R4PatientRestServiceImpl();
         this.r4AppointmentService = new R4AppointmentServiceImpl();
-        this.r4AppointmentRestService = new R4AppointmentRestServiceImpl();
+        this.r4AppointmentRestService = new R4AppointmentRestServiceImpl(getContext());
         this.recentPatientService = new RecentPatientService();
 
         this.recentPatientList = new ArrayList<>();
@@ -410,6 +406,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
+
                     }
 
                     @Override

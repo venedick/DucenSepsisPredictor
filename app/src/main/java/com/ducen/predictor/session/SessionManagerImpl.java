@@ -91,4 +91,6 @@ public class SessionManagerImpl implements SessionManager {
         editor.clear();
         editor.commit();
     }
+
+    
 }

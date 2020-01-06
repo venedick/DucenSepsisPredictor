@@ -1,5 +1,7 @@
 package com.ducen.predictor.r4.rest.service;
 
+import android.content.Context;
+
 import com.ducen.predictor.r4.rest.api.R4APIClient;
 
 import io.reactivex.Observable;
@@ -9,7 +11,12 @@ import okhttp3.ResponseBody;
 
 public class R4PractitionerRestServiceImpl {
 
-    private R4PractitionerRestService R4practitionerRestInterface = R4APIClient.getClient().create(R4PractitionerRestService.class);
+    private R4PractitionerRestService R4practitionerRestInterface;
+
+    public R4PractitionerRestServiceImpl(Context context) {
+        R4APIClient r4APIClient = new R4APIClient(context);
+        this.R4practitionerRestInterface = r4APIClient.getClient().create(R4PractitionerRestService.class);
+    }
 
     public Observable<ResponseBody> getPractitionerById(String practitioner) {
         return R4practitionerRestInterface.getPractitionerById(practitioner)

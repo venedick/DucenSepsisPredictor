@@ -111,7 +111,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
     }
 
     void initClasses() {
-        r4PractitionerRestServiceImpl = new R4PractitionerRestServiceImpl();
+        r4PractitionerRestServiceImpl = new R4PractitionerRestServiceImpl(getApplicationContext());
         r4PractitionerService = new R4PractitionerServiceImpl();
         sessionManager = new SessionManagerImpl(getApplicationContext());
         compositeDisposable = new CompositeDisposable();

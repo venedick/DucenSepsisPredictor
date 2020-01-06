@@ -111,7 +111,12 @@ public class EmailVerificationActivity extends AppCompatActivity {
     }
 
     void initClasses() {
-        r4PractitionerRestServiceImpl = new R4PractitionerRestServiceImpl(getApplicationContext());
+        String serverAddressFromSession = "http://hapi.fhir.org/baseR4/";
+
+        Log.d("TEST", "initClasses Server Address is null : " + serverAddressFromSession);
+
+        r4PractitionerRestServiceImpl = new R4PractitionerRestServiceImpl(getApplicationContext(), serverAddressFromSession);
+
         r4PractitionerService = new R4PractitionerServiceImpl();
         sessionManager = new SessionManagerImpl(getApplicationContext());
         compositeDisposable = new CompositeDisposable();

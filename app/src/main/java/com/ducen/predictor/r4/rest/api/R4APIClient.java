@@ -1,13 +1,7 @@
 package com.ducen.predictor.r4.rest.api;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import com.ducen.predictor.view.MainActivity;
-import com.ducen.predictor.view.home.defaultdata.ServerAddress;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,10 +19,16 @@ public class R4APIClient {
 
     private Context context = null;
 
+    private String serverAddressFromSession = "";
+
     public R4APIClient(Context context) {
         this.context = context;
     }
 
+    public R4APIClient(Context context, String serverAddressFromSession) {
+        this.context = context;
+        this.serverAddressFromSession = serverAddressFromSession;
+    }
 
     public Retrofit getClient() {
 
@@ -37,13 +37,24 @@ public class R4APIClient {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .baseUrl(getServerAddressFromFile())
+            if ("".equalsIgnoreCase(serverAddressFromSession)) {
+                retrofit = new Retrofit.Builder()
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .baseUrl(getServerAddressFromFile())
 //                    .baseUrl(ServerAddress.R4_BASE_URL.toString())
-                    .client(client)
-                    .build();
+                        .client(client)
+                        .build();
+
+            } else {
+                retrofit = new Retrofit.Builder()
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .baseUrl(serverAddressFromSession)
+//                    .baseUrl(ServerAddress.R4_BASE_URL.toString())
+                        .client(client)
+                        .build();
+            }
         }
         return retrofit;
     }

@@ -115,9 +115,11 @@ public class HomeFragment extends Fragment {
 
     private void initClasses() {
         this.r4PatientService = new R4PatientServiceImpl();
-        this.r4PatientRestService = new R4PatientRestServiceImpl();
         this.r4AppointmentService = new R4AppointmentServiceImpl();
+
+        this.r4PatientRestService = new R4PatientRestServiceImpl(getContext());
         this.r4AppointmentRestService = new R4AppointmentRestServiceImpl(getContext());
+
         this.recentPatientService = new RecentPatientService();
 
         this.recentPatientList = new ArrayList<>();

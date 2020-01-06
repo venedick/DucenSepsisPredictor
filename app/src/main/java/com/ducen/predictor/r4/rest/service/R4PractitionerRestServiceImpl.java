@@ -1,6 +1,7 @@
 package com.ducen.predictor.r4.rest.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.ducen.predictor.r4.rest.api.R4APIClient;
 
@@ -15,6 +16,14 @@ public class R4PractitionerRestServiceImpl {
 
     public R4PractitionerRestServiceImpl(Context context) {
         R4APIClient r4APIClient = new R4APIClient(context);
+        this.R4practitionerRestInterface = r4APIClient.getClient().create(R4PractitionerRestService.class);
+    }
+
+    public R4PractitionerRestServiceImpl(Context context, String serverAddressFromSession) {
+        Log.d("TEST", "R4PractitionerRestServiceImpl Server Address is null : " + serverAddressFromSession);
+
+        R4APIClient r4APIClient = new R4APIClient(context, serverAddressFromSession);
+
         this.R4practitionerRestInterface = r4APIClient.getClient().create(R4PractitionerRestService.class);
     }
 

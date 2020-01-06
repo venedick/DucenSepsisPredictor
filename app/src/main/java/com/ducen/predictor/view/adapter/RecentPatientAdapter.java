@@ -1,5 +1,6 @@
 package com.ducen.predictor.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class RecentPatientAdapter extends RecyclerView.Adapter<RecentPatientAdap
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecentPatientAdapter.ViewHolder holder, int position) {
         try {
@@ -56,13 +58,6 @@ public class RecentPatientAdapter extends RecyclerView.Adapter<RecentPatientAdap
             holder.tvbDay.setText("Birth date: " + birthDate);
             holder.tvDesc.setText("Description : " + appointmentDescription);
             holder.tvDate.setText("Date of Appointment : " + appointmentDate);
-
-//            Log.d("TEST", "holder patient id: " + patientId);
-//            Log.d("TEST", "holder fullname : " + fullname);
-//            Log.d("TEST", "holder gender : " + gender);
-//            Log.d("TEST", "holder age : " + patientId);
-//            Log.d("TEST", "holder appointmentDescription : " + appointmentDescription);
-//            Log.d("TEST", "holder appointmentDate : " + appointmentDate);
 
         } catch (Exception e) {
             e.printStackTrace();

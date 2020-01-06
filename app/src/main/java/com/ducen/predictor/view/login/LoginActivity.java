@@ -303,12 +303,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     reader.close();
                 } catch (Exception e) {
-                    Log.e("Login Activity", "Unable to read the login.txt file." + e.toString());
+                    Log.e("Login Activity", "Unable to read the file." + e.toString());
                 }
             }
 
         } catch (Exception e) {
-            Log.e("Login Activity", "Unable to write to the TestFile.txt file.");
+            Log.e("Login Activity", "Unable to write to the file.");
         }
     }
 

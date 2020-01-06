@@ -515,13 +515,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateRecentPatientAdapter() {
-        showData();
+        //showData();
         recentPatientAdapter.notifyDataSetChanged();
         recentPatientAdapter = new RecentPatientAdapter(recentPatientList);
         rvPatients.setAdapter(recentPatientAdapter);
     }
 
-    private void showData() {
+    /*private void showData() {
         for (RecentPatient recentPatient : this.recentPatientList) {
             String patientId = recentPatient.getPatientId();
             String fullName = recentPatient.getFullname();
@@ -545,6 +545,6 @@ public class HomeFragment extends Fragment {
 //            Log.d("TEST", "holder appointmentDate : " + appointmentDate);
 //            Log.d("TEST", "=====================================");
         }
-    }
+    }*/
 
 }

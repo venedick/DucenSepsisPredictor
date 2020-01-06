@@ -19,6 +19,9 @@ import com.ducen.predictor.view.login.LoginActivity;
 import com.ducen.predictor.view.pincode.PincodeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         timer = new Timer();
-        Log.i("Home Activity", "Invoking logout timer");
+        Log.i("Main Activity", "Invoking logout timer");
         LogOutTimerTask logoutTimeTask = new LogOutTimerTask();
         timer.schedule(logoutTimeTask, 18000); //60000 per minutes
 
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            Log.i("Home Activity", "Logout Session");
+            Log.i("Main Activity", "Lock Session");
             Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
             if(log){
                 Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
@@ -110,6 +113,34 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    private String getPractitionerId(){
+        String practitionerId = "";
+        try {
+            File testFile = new File(this.getExternalFilesDir(null), "ducensepsis.txt");
+            Log.d("Main Activity", "Get practitionerid");
+            String line,server;
+            if (testFile != null) {
+                StringBuilder stringBuilder = new StringBuilder();
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(testFile));
+                    while ((line = reader.readLine()) != null) {
+                        practitionerId = line.split(" ")[0];
+                        Log.d("Main Activity", "Server Address : " + practitionerId);
+                    }
+                    reader.close();
+                } catch (Exception e) {
+                    Log.e("Main Actity", "Unable to read the file." + e.toString());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("Main Activity", "Unable to write to the file.");
+        }
+
+        return practitionerId;
     }
 
 

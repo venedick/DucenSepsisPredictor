@@ -35,6 +35,7 @@ public class GetStartedActivity extends AppCompatActivity {
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                     finish();
+                    //comment
                 }
             });
 

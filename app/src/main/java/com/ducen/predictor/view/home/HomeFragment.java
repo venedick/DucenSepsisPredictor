@@ -98,7 +98,6 @@ public class HomeFragment extends Fragment {
 
         initRecentPatientList();
 
-        //test comment tj
         return view;
     }
 
@@ -243,7 +242,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void callGetAppointmentByPractitionerWebService() {
+
         String practitionerId = "249120";
+
         getAppointmentByPractitionerObservable(practitionerId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -283,7 +284,7 @@ public class HomeFragment extends Fragment {
     }
 
     private Observable<Object> getAppointmentByPractitionerObservable(String practitionerId) {
-        return r4AppointmentRestService.getAppointmentByPractitioner(practitionerId)
+        return r4AppointmentRestService.getAppointmentByPractitioner(10, practitionerId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<ResponseBody, Object>() {
@@ -310,8 +311,7 @@ public class HomeFragment extends Fragment {
     private void callGetPatientByIdWebService(List<String> patientIdList) {
 
         for (String patientId : patientIdList) {
-
-            getPatientByIdObservable(patientId)
+            getPatientByIdObservable(1, patientId)
                     .delay(4, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -349,8 +349,8 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private Observable<Object> getPatientByIdObservable(String patientId) {
-        return r4PatientRestService.getPatientById(patientId)
+    private Observable<Object> getPatientByIdObservable(int resultCount, String patientId) {
+        return r4PatientRestService.getPatientById(resultCount, patientId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<ResponseBody, Object>() {
@@ -419,8 +419,7 @@ public class HomeFragment extends Fragment {
     }
 
     private Observable<Object> getPatientByNameObservable(String name) {
-        String resultCount = "10";
-        return r4PatientRestService.getPatientByName(resultCount, name)
+        return r4PatientRestService.getPatientByName(10, name)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<ResponseBody, Object>() {
@@ -448,8 +447,7 @@ public class HomeFragment extends Fragment {
     private void callGetAppointmentByPatientIdWebService(List<String> patientIdList) {
 
         for (String patientId : patientIdList) {
-            String resultCount = "1";
-            getAppointmentByPatientIdObservable(resultCount, patientId)
+            getAppointmentByPatientIdObservable(1, patientId)
                     .delay(4, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -472,7 +470,6 @@ public class HomeFragment extends Fragment {
                                 R4Appointment r4Appointment = (R4Appointment) object;
                                 recentPatientList = recentPatientService.setAppointmentDataOnRecentPatient(r4Appointment, recentPatientList);
                                 updateRecentPatientAdapter();
-//                                Log.d("TEST", "PatientIDList : " + patientIdList.toString());
                             }
                         }
 
@@ -488,7 +485,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private Observable<Object> getAppointmentByPatientIdObservable(String resultCount, String patientId) {
+    private Observable<Object> getAppointmentByPatientIdObservable(int resultCount, String patientId) {
         return r4AppointmentRestService.getAppointmentByPatientId(resultCount, patientId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

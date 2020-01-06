@@ -11,10 +11,10 @@ import retrofit2.http.Query;
 public interface R4PatientRestService {
 
     @GET(Resources.RESOURCES_PATIENT + "/")
-    Observable<ResponseBody> getPatientById(@Query(SearchParameters.COUNT) String resultCount, @Query(SearchParameters._ID) String id);
+    Observable<ResponseBody> getPatientById(@Query(SearchParameters.COUNT) int resultCount, @Query(SearchParameters._ID) String id);
 
     @GET(Resources.RESOURCES_PATIENT + "/")
-    Observable<ResponseBody> getPatientByName(@Query(SearchParameters.COUNT) String resultCount, @Query(SearchParameters.NAME) String name);
+    Observable<ResponseBody> getPatientByName(@Query(SearchParameters.COUNT) int resultCount, @Query(SearchParameters.NAME) String name);
 
     @GET(Resources.RESOURCES_PATIENT + "/")
     Observable<ResponseBody> getAllPatient();

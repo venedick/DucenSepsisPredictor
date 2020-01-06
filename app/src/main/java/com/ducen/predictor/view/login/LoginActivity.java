@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         boolean flag = false;
         if (sessionManager.getBooleanSession(Session.IS_LOGIN.toString())) {
             flag = true;
+            flag = true;
         }
         return flag;
     }

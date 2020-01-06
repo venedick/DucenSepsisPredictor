@@ -117,7 +117,7 @@ public class PasswordActivity extends AppCompatActivity {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     Log.d("Password Activity", "Set password");
                     sessionManager.createSession(Session.PASSWORD.toString(), passwordEditText.getText().toString());
-                    startActivity(new Intent(getApplicationContext(), PincodeActivity.class));
+                    startIntent();
                 }
                 return false;
             }

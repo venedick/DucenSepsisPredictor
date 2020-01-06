@@ -8,8 +8,10 @@ import androidx.navigation.ui.NavigationUI;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ducen.predictor.view.home.defaultdata.Session;
 import com.ducen.predictor.session.SessionManagerImpl;
@@ -24,6 +26,7 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
 
     private SessionManagerImpl sessionManager;
+    boolean doubleBackToExitPressedOnce = false;
     private Timer timer;
 
     @Override
@@ -69,6 +72,24 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Home Activity", "cancel timer");
             timer = null;
         }
+    }
+
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
     private class LogOutTimerTask extends TimerTask {

@@ -19,5 +19,4 @@ public interface R4PatientRestService {
     @GET(Resources.RESOURCES_PATIENT + "/")
     Observable<ResponseBody> getAllPatient();
 
-
 }

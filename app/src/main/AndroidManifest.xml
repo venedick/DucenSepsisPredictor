@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".scan.ScanActivity" />
+        <uses-library android:name="com.symbol.emdk"/>
+
         <activity android:name=".main.GetStartedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -17,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 //EMDK
-import com.ducen.predictor.view.patient.PatientActivity;
 import com.symbol.emdk.EMDKManager;
 import com.symbol.emdk.barcode.BarcodeManager;
 import com.symbol.emdk.barcode.ScanDataCollection;

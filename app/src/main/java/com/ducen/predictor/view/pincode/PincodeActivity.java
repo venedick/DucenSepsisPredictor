@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import java.io.IOException;
 public class PincodeActivity extends AppCompatActivity {
 
     private SessionManagerImpl sessionManager;
+    private boolean doubleBackToExitPressedOnce = false;
 
     private String partialCode = "";
     private String confirmCode = "";
@@ -75,9 +77,28 @@ public class PincodeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.d("PinCode Activity", "Back Press");
-        startActivity(new Intent(getApplicationContext(), PasswordActivity.class));
-        finish();
+        if (sessionManager.contains(Session.SET_CODE.toString())){
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
+        }else{
+            Log.d("PinCode Activity", "Back Press");
+            startActivity(new Intent(getApplicationContext(), PasswordActivity.class));
+            finish();
+        }
+
     }
 
     @Override

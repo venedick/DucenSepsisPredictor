@@ -3,12 +3,10 @@ package com.ducen.predictor.r4.service;
 import android.util.Log;
 
 
-import com.ducen.predictor.defaultdata.Properties;
+import com.ducen.predictor.view.home.defaultdata.Properties;
 import com.ducen.predictor.r4.types.Meta;
 import com.ducen.predictor.r4.types.Participant;
-import com.ducen.predictor.r4.types.Stage;
 import com.ducen.predictor.r4.entity.R4Appointment;
-import com.ducen.predictor.r4.entity.R4Evidence;
 import com.ducen.predictor.r4.types.Annotation;
 import com.ducen.predictor.r4.types.CodeableConcept;
 import com.ducen.predictor.r4.types.Coding;
@@ -20,9 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class R4AppointmentServiceImpl implements R4AppointmentService {
 

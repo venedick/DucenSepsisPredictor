@@ -1,6 +1,6 @@
 package com.ducen.predictor.r4.rest.service;
 
-import com.ducen.predictor.defaultdata.Properties;
+import com.ducen.predictor.view.home.defaultdata.Properties;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

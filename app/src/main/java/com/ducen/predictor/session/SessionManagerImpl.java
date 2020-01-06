@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.ducen.predictor.defaultdata.Session;
+import com.ducen.predictor.view.home.defaultdata.Session;
 import com.ducen.predictor.view.login.LoginActivity;
 
 public class SessionManagerImpl implements SessionManager {
@@ -80,6 +80,10 @@ public class SessionManagerImpl implements SessionManager {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         _context.startActivity(i);
+    }
+
+    public boolean contains (String key){
+        return pref.contains(key);
     }
 
     //reset cache

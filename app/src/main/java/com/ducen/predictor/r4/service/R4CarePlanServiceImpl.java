@@ -3,14 +3,11 @@ package com.ducen.predictor.r4.service;
         import android.util.Log;
 
 
-        import com.ducen.predictor.defaultdata.Properties;
+        import com.ducen.predictor.view.home.defaultdata.Properties;
         import com.ducen.predictor.r4.types.Meta;
-        import com.ducen.predictor.r4.types.Stage;
         import com.ducen.predictor.r4.types.Activity;
         import com.ducen.predictor.r4.types.Detail;
         import com.ducen.predictor.r4.entity.R4CarePlan;
-        import com.ducen.predictor.r4.entity.R4Evidence;
-        import com.ducen.predictor.r4.types.Participant;
         import com.ducen.predictor.r4.types.Annotation;
         import com.ducen.predictor.r4.types.CodeableConcept;
         import com.ducen.predictor.r4.types.Coding;

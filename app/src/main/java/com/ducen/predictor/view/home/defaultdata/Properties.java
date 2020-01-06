@@ -1,4 +1,4 @@
-package com.ducen.predictor.defaultdata;
+package com.ducen.predictor.view.home.defaultdata;
 
 public class Properties {
 
@@ -799,18 +799,6 @@ public class Properties {
 
     public static final String SP_GENERAL_PRACTITIONER = "general-practitioner";
 
-    //session
-    public static final String KEY_PRACTITIONER = "practitionerID";
-
-    public  static final String KEY_EMAIL = "email";
-
-    public static final String KEY_PASSWORD = "password";
-
-    public static final String IS_LOGIN = "logged";
-
-    public static final String USERNAME = "loggedUser";
-
-    public static final String SET_CODE = "setCode";
 }
 
 

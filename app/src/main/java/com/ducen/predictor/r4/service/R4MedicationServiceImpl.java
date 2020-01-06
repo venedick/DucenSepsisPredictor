@@ -2,27 +2,20 @@ package com.ducen.predictor.r4.service;
 
 import android.util.Log;
 
-import com.ducen.predictor.defaultdata.Properties;
+import com.ducen.predictor.view.home.defaultdata.Properties;
 import com.ducen.predictor.r4.entity.R4Medication;
-import com.ducen.predictor.r4.types.Annotation;
 import com.ducen.predictor.r4.types.Batch;
 import com.ducen.predictor.r4.types.CodeableConcept;
 import com.ducen.predictor.r4.types.Coding;
-import com.ducen.predictor.r4.types.Dosage;
-import com.ducen.predictor.r4.types.DoseAndRate;
 import com.ducen.predictor.r4.types.Identifier;
 import com.ducen.predictor.r4.types.Ingredient;
 import com.ducen.predictor.r4.types.Meta;
-import com.ducen.predictor.r4.types.Performer;
 import com.ducen.predictor.r4.types.Period;
 import com.ducen.predictor.r4.types.Quantity;
 import com.ducen.predictor.r4.types.Range;
 import com.ducen.predictor.r4.types.Ratio;
 import com.ducen.predictor.r4.types.Reference;
-import com.ducen.predictor.r4.types.Repeat;
 import com.ducen.predictor.r4.types.SimpleQuantity;
-import com.ducen.predictor.r4.types.Substitution;
-import com.ducen.predictor.r4.types.Timing;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

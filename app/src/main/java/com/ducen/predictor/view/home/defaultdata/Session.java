@@ -1,4 +1,4 @@
-package com.ducen.predictor.defaultdata;
+package com.ducen.predictor.view.home.defaultdata;
 
 public enum Session {
 
@@ -36,6 +36,9 @@ public enum Session {
         public String toString() {
             return "setCode";
         }
+    },
+    BASE_SERVER{
+        public String toString(){ return "server"; }
     }
 
 }

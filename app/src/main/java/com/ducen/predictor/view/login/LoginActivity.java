@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
@@ -22,12 +23,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ducen.predictor.defaultdata.Session;
-import com.ducen.predictor.r4.types.Activity;
+import com.ducen.predictor.view.home.defaultdata.Session;
 import com.ducen.predictor.session.SessionManagerImpl;
 import com.ducen.predictor.view.MainActivity;
 import com.ducen.predictor.view.R;
 import com.ducen.predictor.view.main.GetStartedActivity;
+import com.ducen.predictor.view.password.PasswordActivity;
 import com.ducen.predictor.view.pincode.PincodeActivity;
 
 import java.io.BufferedReader;
@@ -37,6 +38,9 @@ import java.io.FileReader;
 public class LoginActivity extends AppCompatActivity {
 
     private SessionManagerImpl sessionManager;
+
+
+    boolean doubleBackToExitPressedOnce = false;
 
     EditText usernameEditText;
     EditText passwordEditText;
@@ -74,6 +78,25 @@ public class LoginActivity extends AppCompatActivity {
         sessionManager = new SessionManagerImpl(getApplicationContext());
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
     boolean validateSession() {
         boolean flag = false;
         if (sessionManager.getBooleanSession(Session.IS_LOGIN.toString())) {
@@ -226,6 +249,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Reset Successfully",
                             Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), GetStartedActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Reset Unsuccessfully",
                             Toast.LENGTH_LONG).show();
@@ -266,6 +290,7 @@ public class LoginActivity extends AppCompatActivity {
                         createSession(username);
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
 
                     } else {
                         Log.i("Login Activity", "Login Failed");

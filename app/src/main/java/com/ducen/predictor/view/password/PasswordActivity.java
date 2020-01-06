@@ -14,15 +14,16 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import static com.ducen.predictor.defaultdata.Properties.KEY_PASSWORD;
-
 import com.ducen.predictor.session.SessionManagerImpl;
 import com.ducen.predictor.view.R;
+import com.ducen.predictor.view.home.defaultdata.Session;
 import com.ducen.predictor.view.main.GetStartedActivity;
 import com.ducen.predictor.view.pincode.PincodeActivity;
+import com.ducen.predictor.view.verify.EmailVerificationActivity;
 
 public class PasswordActivity extends AppCompatActivity {
 
@@ -34,6 +35,7 @@ public class PasswordActivity extends AppCompatActivity {
     EditText confirmEditText;
     Button nextButton;
     ProgressBar loadingProgressBar;
+    ImageButton backbutton;
     TextWatcher afterTextChangedListener;
 
     @Override
@@ -50,11 +52,24 @@ public class PasswordActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (sessionManager.getStringSession(KEY_PASSWORD).equalsIgnoreCase(null)) {
-            Log.d("PasswordActivity", "Reset Registration");
-            sessionManager.reset();
-            startActivity(new Intent(getApplicationContext(), GetStartedActivity.class));
+        if (sessionManager.contains(Session.PASSWORD.toString())) {
+            if(sessionManager.getStringSession(Session.PASSWORD.toString()).equalsIgnoreCase(null)){
+                Log.d("PasswordActivity", "Reset Registration");
+                sessionManager.reset();
+                startActivity(new Intent(getApplicationContext(), GetStartedActivity.class));
+                finish();
+            }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("Psasword Activity", "Back Press");
+        if (sessionManager.contains(Session.PASSWORD.toString())) {
+            sessionManager.deleteSession(Session.PASSWORD.toString());
+        }
+        startActivity(new Intent(getApplicationContext(), EmailVerificationActivity.class));
+        finish();
     }
 
     void initClasses() {
@@ -66,6 +81,7 @@ public class PasswordActivity extends AppCompatActivity {
         confirmEditText = findViewById(R.id.editText_confirm);
         nextButton = findViewById(R.id.button_next);
         loadingProgressBar = findViewById(R.id.loading);
+        backbutton = findViewById(R.id.header_back);
     }
 
     void initTextWatcher() {
@@ -100,7 +116,7 @@ public class PasswordActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     Log.d("Password Activity", "Set password");
-                    sessionManager.createSession(KEY_PASSWORD, passwordEditText.getText().toString());
+                    sessionManager.createSession(Session.PASSWORD.toString(), passwordEditText.getText().toString());
                     startActivity(new Intent(getApplicationContext(), PincodeActivity.class));
                 }
                 return false;
@@ -162,6 +178,15 @@ public class PasswordActivity extends AppCompatActivity {
                 startIntent();
             }
         });
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Password Activity", "Back to previous page");
+                startActivity(new Intent(getApplicationContext(), EmailVerificationActivity.class));
+                finish();
+            }
+        });
     }
 
     boolean checkPassword(){
@@ -190,12 +215,14 @@ public class PasswordActivity extends AppCompatActivity {
     }
 
     void createSession(){
-        sessionManager.createSession(KEY_PASSWORD, passwordEditText.getText().toString());
+        sessionManager.createSession(Session.PASSWORD.toString(), passwordEditText.getText().toString());
     }
 
     void startIntent(){
         Intent intent = new Intent(getApplicationContext(), PincodeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
 }

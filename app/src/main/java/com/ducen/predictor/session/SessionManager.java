@@ -18,4 +18,6 @@ public interface SessionManager {
 
     void reset();
 
+    boolean contains(String key);
+
 }

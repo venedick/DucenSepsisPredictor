@@ -2,7 +2,7 @@ package com.ducen.predictor.r4.service;
 
 import android.util.Log;
 
-import com.ducen.predictor.defaultdata.Properties;
+import com.ducen.predictor.view.home.defaultdata.Properties;
 import com.ducen.predictor.r4.types.Meta;
 import com.ducen.predictor.r4.types.Stage;
 import com.ducen.predictor.r4.entity.R4Condition;

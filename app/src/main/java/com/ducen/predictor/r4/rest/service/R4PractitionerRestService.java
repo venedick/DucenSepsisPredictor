@@ -1,7 +1,7 @@
 package com.ducen.predictor.r4.rest.service;
 
 
-import com.ducen.predictor.defaultdata.Properties;
+import com.ducen.predictor.view.home.defaultdata.Properties;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;

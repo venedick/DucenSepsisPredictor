@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,7 +17,10 @@ import android.widget.Toast;
 import com.ducen.predictor.session.SessionManagerImpl;
 import com.ducen.predictor.view.MainActivity;
 import com.ducen.predictor.view.R;
+import com.ducen.predictor.view.home.defaultdata.Session;
 import com.ducen.predictor.view.login.LoginActivity;
+import com.ducen.predictor.view.password.PasswordActivity;
+import com.ducen.predictor.view.verify.EmailVerificationActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,12 +28,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import static com.ducen.predictor.defaultdata.Properties.IS_LOGIN;
-import static com.ducen.predictor.defaultdata.Properties.KEY_EMAIL;
-import static com.ducen.predictor.defaultdata.Properties.KEY_PASSWORD;
-import static com.ducen.predictor.defaultdata.Properties.KEY_PRACTITIONER;
-import static com.ducen.predictor.defaultdata.Properties.SET_CODE;
 
 public class PincodeActivity extends AppCompatActivity {
 
@@ -44,6 +42,7 @@ public class PincodeActivity extends AppCompatActivity {
     private TextView textView_title;
     private Button button_confirm, button_forgot;
     private LinearLayout actionBar, logo;
+    private ImageButton backbutton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class PincodeActivity extends AppCompatActivity {
 
         initListeners();
 
-        if (sessionManager.getBooleanSession(SET_CODE)) {
+        if (sessionManager.getBooleanSession(Session.SET_CODE.toString())) {
 
             textView_title.setText(getString(R.string.enter_pin));
             actionBar.setVisibility(View.GONE);
@@ -75,13 +74,23 @@ public class PincodeActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Log.d("PinCode Activity", "Back Press");
+        startActivity(new Intent(getApplicationContext(), PasswordActivity.class));
+        finish();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         File test = new File(getApplicationContext().getExternalFilesDir(null), "ducensepsis.txt");
         if (!test.exists()) {
-            Log.d("PincodeActivity", "Reset Registration");
-            sessionManager.reset();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            if (sessionManager.contains(Session.SET_CODE.toString())){
+                Log.d("PincodeActivity", "Reset Registration");
+                sessionManager.reset();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
         }
 
     }
@@ -100,6 +109,7 @@ public class PincodeActivity extends AppCompatActivity {
         actionBar = findViewById(R.id.actionBar);
         logo = findViewById(R.id.logo);
         button_forgot = findViewById(R.id.button_forgot);
+        backbutton = findViewById(R.id.header_back);
     }
 
     void initListeners() {
@@ -107,6 +117,17 @@ public class PincodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 confirmCode();
+            }
+        });
+
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Pincode Activity", "Back to previous page");
+                partialCode = "";
+                confirmCode = "";
+                startActivity(new Intent(getApplicationContext(), PasswordActivity.class));
+                finish();
             }
         });
 
@@ -239,11 +260,12 @@ public class PincodeActivity extends AppCompatActivity {
 
     void verifyCode(String code) {
         try {
-            String id = sessionManager.getStringSession(KEY_PRACTITIONER);
-            String email = sessionManager.getStringSession(KEY_EMAIL);
+            String id = sessionManager.getStringSession(Session.PRACTITIONERID.toString());
+            String email = sessionManager.getStringSession(Session.EMAIL.toString());
             String username = email.substring(0, email.indexOf("@"));
-            String password = sessionManager.getStringSession(KEY_PASSWORD);
-            Boolean setCode = sessionManager.getBooleanSession(SET_CODE);
+            String password = sessionManager.getStringSession(Session.PASSWORD.toString());
+            Boolean setCode = sessionManager.getBooleanSession(Session.SET_CODE.toString());
+            String base_server = sessionManager.getStringSession(Session.BASE_SERVER.toString());
             Log.d("Pincode Activity", email + " " + username + " " + password + " " + setCode);
             File file = new File(getApplicationContext().getExternalFilesDir(null), "ducensepsis.txt");
             Log.d("Pincode Activity", "Verify code");
@@ -267,7 +289,7 @@ public class PincodeActivity extends AppCompatActivity {
                         }
                         if (flag) {
                             Log.i("Login", "Code is correct");
-                            sessionManager.createSession(IS_LOGIN, true);
+                            sessionManager.createSession(Session.IS_LOGIN.toString(), true);
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Log.i("Login", "Code is wrong");
@@ -286,7 +308,7 @@ public class PincodeActivity extends AppCompatActivity {
             } else {
                 Log.d("Pincode Activity", "Add code");
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file, false /*append*/));
-                writer.write(id + " " + username + " " + password.hashCode() + " " + code.hashCode() + " \n");
+                writer.write(id + " " + username + " " + password.hashCode() + " " + code.hashCode() + " "+base_server+" \n");
                 writer.close();
                 MediaScannerConnection.scanFile(this,
                         new String[]{file.toString()},
@@ -306,12 +328,14 @@ public class PincodeActivity extends AppCompatActivity {
     }
 
     void createSession() {
-        sessionManager.createSession(SET_CODE, true);
+        sessionManager.createSession(Session.SET_CODE.toString(), true);
     }
 
     void startIntent() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
 }

@@ -2,8 +2,8 @@ package com.ducen.predictor.r4.service;
 
 import android.util.Log;
 
-import com.ducen.predictor.defaultdata.Properties;
-import com.ducen.predictor.defaultdata.ResponseKeys;
+import com.ducen.predictor.view.home.defaultdata.Properties;
+import com.ducen.predictor.view.home.defaultdata.ResponseKeys;
 import com.ducen.predictor.r4.entity.R4Patient;
 import com.ducen.predictor.r4.types.Address;
 import com.ducen.predictor.r4.types.Contact;

@@ -1,6 +1,6 @@
 package com.ducen.predictor.r4.rest.api;
 
-import com.ducen.predictor.defaultdata.ServerAddress;
+import com.ducen.predictor.view.home.defaultdata.ServerAddress;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

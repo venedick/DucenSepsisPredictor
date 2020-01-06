@@ -20,7 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ducen.predictor.defaultdata.Session;
+import com.ducen.predictor.view.home.defaultdata.Session;
 import com.ducen.predictor.r4.entity.R4Practitioner;
 import com.ducen.predictor.r4.rest.service.R4PractitionerRestServiceImpl;
 import com.ducen.predictor.r4.service.R4PractitionerServiceImpl;
@@ -79,6 +79,19 @@ public class EmailVerificationActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Log.d("EmailVerification", "Back Press");
+        if (!sessionManager.contains(Session.PRACTITIONERID.toString())) {
+            sessionManager.deleteSession(Session.PRACTITIONERID.toString());
+        }
+        if (!sessionManager.contains(Session.EMAIL.toString())) {
+            sessionManager.deleteSession(Session.EMAIL.toString());
+        }
+        startActivity(new Intent(getApplicationContext(),GetStartedActivity.class));
+        finish();
+    }
+
+    @Override
     protected void onDestroy() {
         compositeDisposable.clear();
         super.onDestroy();
@@ -87,10 +100,13 @@ public class EmailVerificationActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (sessionManager.getStringSession(Session.PRACTITIONERID.toString()).equalsIgnoreCase(null) && sessionManager.getStringSession(Session.EMAIL.toString()).equalsIgnoreCase(null)) {
-            Log.d("EmailVerification", "Reset Registration");
-            sessionManager.reset();
-            startActivity(new Intent(getApplicationContext(), GetStartedActivity.class));
+        if (sessionManager.contains(Session.PRACTITIONERID.toString()) && sessionManager.contains(Session.EMAIL.toString())) {
+            if(sessionManager.getStringSession(Session.PRACTITIONERID.toString()).equalsIgnoreCase(null) && sessionManager.getStringSession(Session.EMAIL.toString()).equalsIgnoreCase(null)){
+                Log.d("EmailVerification", "Reset Registration");
+                sessionManager.reset();
+                startActivity(new Intent(getApplicationContext(), GetStartedActivity.class));
+                finish();
+            }
         }
     }
 
@@ -132,8 +148,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
                 if (checkValidPractitioner() && checkValidEmail()) {
                     verifyButton.setEnabled(true);
                 } else {
-                    verifyButton.setEnabled(true); //tj test, delete this line if production then uncomment the next line
-//                    verifyButton.setEnabled(false);
+                    verifyButton.setEnabled(false);
                 }
             }
         };
@@ -166,6 +181,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("Email Verification", "Back to previous page");
                 startActivity(new Intent(getApplicationContext(), GetStartedActivity.class));
+                finish();
             }
         });
     }
@@ -298,7 +314,9 @@ public class EmailVerificationActivity extends AppCompatActivity {
 
     void startIntent() {
         Intent intent = new Intent(getApplicationContext(), PasswordActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
 

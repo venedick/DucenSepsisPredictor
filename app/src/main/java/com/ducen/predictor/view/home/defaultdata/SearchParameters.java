@@ -1,4 +1,4 @@
-package com.ducen.predictor.defaultdata;
+package com.ducen.predictor.view.home.defaultdata;
 
 public class SearchParameters {
 

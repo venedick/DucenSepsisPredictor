@@ -1,8 +1,8 @@
 package com.ducen.predictor.r4.rest.service;
 
 
-import com.ducen.predictor.defaultdata.Properties;
-import com.ducen.predictor.defaultdata.SearchParameters;
+import com.ducen.predictor.view.home.defaultdata.Properties;
+import com.ducen.predictor.view.home.defaultdata.SearchParameters;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

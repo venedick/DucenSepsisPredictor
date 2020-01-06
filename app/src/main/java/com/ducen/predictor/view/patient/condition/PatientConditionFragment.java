@@ -130,13 +130,14 @@ public class PatientConditionFragment extends Fragment {
                     @Override
                     public void onNext(Object object) {
                         if (object.equals(false)) {
-                            Log.d("TEST", "No Appointments yet for the Practitioner. ");
+                            Log.d("TEST", "No Condition yet for the patient. ");
                         } else if (object.equals(0)) {
                             Log.d("TEST", "Problem with Internet Connection. ");
                         } else {
-                            List<R4Condition> r4ConditionList = (ArrayList) object;
 
-//                            conditionList = conditionService.createRecentPatientListBasedFromAppointmentList(r4AppointmentList);
+                            List<R4Condition> r4ConditionList = (ArrayList) object;
+                            conditionList = conditionService.createConditionList(r4ConditionList);
+                            Log.d("TEST", "Condition List : " + conditionList.size());
 //
 //                            updateRecentPatientAdapter();
 //
@@ -169,8 +170,8 @@ public class PatientConditionFragment extends Fragment {
                             JSONObject jsonObject = new JSONObject(responseBody.string());
 
                             if (r4ConditionConverter.checkExist(jsonObject)) {
-                                List<R4Condition> r4AppointmentList = r4ConditionConverter.createR4ConditionList(jsonObject);
-                                object = r4AppointmentList;
+                                List<R4Condition> r4ConditionList = r4ConditionConverter.createR4ConditionList(jsonObject);
+                                object = r4ConditionList;
                             } else {
                                 object = false;
                             }

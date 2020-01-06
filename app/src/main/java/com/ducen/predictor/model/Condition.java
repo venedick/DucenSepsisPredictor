@@ -6,14 +6,16 @@ public class Condition {
     String clinicalStatus;
     String verificationStatus;
     String onsetDate;
+    String abatementDateTime;
 
     public Condition(){};
 
-    public Condition(String condition, String clinicalStatus, String verificationStatus, String onsetDate) {
+    public Condition(String condition, String clinicalStatus, String verificationStatus, String onsetDate, String abatementDateTime) {
         this.condition = condition;
         this.clinicalStatus = clinicalStatus;
         this.verificationStatus = verificationStatus;
         this.onsetDate = onsetDate;
+        this.abatementDateTime = abatementDateTime;
     }
 
     public String getCondition() {
@@ -48,6 +50,14 @@ public class Condition {
         this.onsetDate = onsetDate;
     }
 
+    public String getAbatementDateTime() {
+        return abatementDateTime;
+    }
+
+    public void setAbatementDateTime(String abatementDateTime) {
+        this.abatementDateTime = abatementDateTime;
+    }
+
     @Override
     public String toString() {
         return "Condition{" +
@@ -55,6 +65,7 @@ public class Condition {
                 ", clinicalStatus='" + clinicalStatus + '\'' +
                 ", verificationStatus='" + verificationStatus + '\'' +
                 ", onsetDate='" + onsetDate + '\'' +
+                ", abatementDateTime='" + abatementDateTime + '\'' +
                 '}';
     }
 }

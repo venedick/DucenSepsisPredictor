@@ -63,7 +63,6 @@ public class R4APIClient {
         String address = "";
         try {
             File testFile = new File(context.getExternalFilesDir(null), "ducensepsis.txt");
-            Log.d("R4APIClient", "Get server address from file");
             String line,server;
             if (testFile != null) {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -72,7 +71,6 @@ public class R4APIClient {
                     reader = new BufferedReader(new FileReader(testFile));
                     while ((line = reader.readLine()) != null) {
                         address = line.split(" ")[4];
-                        Log.d("R4APIClient", "Server Address : " + address);
                     }
                     reader.close();
                 } catch (Exception e) {

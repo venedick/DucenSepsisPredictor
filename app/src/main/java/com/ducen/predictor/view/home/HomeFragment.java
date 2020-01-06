@@ -98,6 +98,7 @@ public class HomeFragment extends Fragment {
 
         initRecentPatientList();
 
+        //test comment tj
         return view;
     }
 

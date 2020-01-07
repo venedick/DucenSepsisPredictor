@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onUserInteraction() {
-        // TODO Auto-generated method stub
         super.onUserInteraction();
         stopHandler();//stop first and then start
         startHandler();

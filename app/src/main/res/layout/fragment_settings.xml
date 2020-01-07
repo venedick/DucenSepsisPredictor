@@ -24,43 +24,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dm_10"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/string_account"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginHorizontal="16dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dm_10"
+            />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             app:cardCornerRadius="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:backgroundTint="@android:color/transparent"
                         android:src="@drawable/ic_password"
                         tools:ignore="ContentDescription,UnusedAttribute" />
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:gravity="center|start"
                         android:text="@string/string_change_password"
                         android:textSize="14sp"
                         android:textStyle="bold" />
+
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -71,8 +84,9 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.3dp"
-                    android:background="#000000"/>
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorLightGray" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -106,18 +120,28 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dm_10"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/string_other"
+            android:layout_marginHorizontal="16dp"
             android:textSize="14sp"
             android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dm_10"
+            />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/logoutCard"
             id="logoutCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             app:cardCornerRadius="8dp">
 
             <LinearLayout

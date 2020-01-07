@@ -368,7 +368,7 @@ public class ScanFragment extends Fragment implements EMDKListener, DataListener
 
         protected void onPostExecute(String result) {
             String dataString = "UDI: " + result;
-
+            //TODO Intent to PatientACtivity of Patient with UDI
             Log.d(TAG, "onPostExecute: result  " + dataString);
             tv_barCodeData.setText(dataString);
             /*if (result != null)

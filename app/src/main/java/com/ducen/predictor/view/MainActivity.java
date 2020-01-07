@@ -6,9 +6,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.ducen.predictor.defaultdata.Session;
@@ -28,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private SessionManagerImpl sessionManager;
     boolean doubleBackToExitPressedOnce = false;
     private Timer timer;
-    Handler handler;
-    Runnable r;
+    private Handler handler;
+    private Runnable r;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,49 +50,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Log.i("Main Activity", "Lock Session");
-                Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
-                if (log) {
-                    Log.i("Main Activity", "Visited : " + MainActivity.class.getCanonicalName());
-                    sessionManager.createSession(Session.LAST_VISIT.toString(), MainActivity.class.getCanonicalName());
-                    Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                    finish();
-                } else {
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                    finish();
-                }
+                lockScreen();
             }
         };
         startHandler();
 
     }
-
     @Override
     public void onUserInteraction() {
-        // TODO Auto-generated method stub
         super.onUserInteraction();
-        stopHandler();//stop first and then start
+        stopHandler();
         startHandler();
     }
-
     public void stopHandler() {
+        Log.i("Main Activity","End Inactive User Interaction");
         handler.removeCallbacks(r);
     }
-
     public void startHandler() {
-        handler.postDelayed(r, 1 * 60 * 1000);
+        Log.i("Main Activity","Start Inactive User Interaction");
+        handler.postDelayed(r, 1*60*1000);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (timer != null) {
-            timer.cancel();
-            Log.i("Main Activity", "cancel timer");
-            timer = null;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        boolean isScreenOn;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            isScreenOn = powerManager.isInteractive();
+        } else {
+            isScreenOn = powerManager.isScreenOn();
+        }
+
+        if (!isScreenOn) {
+            lockScreen();
         }
     }
 
@@ -105,17 +105,35 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce = false;
+                doubleBackToExitPressedOnce=false;
             }
         }, 2000);
     }
 
-    private String getPractitionerId() {
+
+    private void lockScreen(){
+        Log.i("MAin Activity","LockScreen");
+        Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
+        if(log){
+            Log.i("Main Activity","Visited : "+ MainActivity.class.getCanonicalName());
+            sessionManager.createSession(Session.LAST_VISIT.toString(),true);
+            Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }else{
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    private String getPractitionerId(){
         String practitionerId = "";
         try {
             File testFile = new File(this.getExternalFilesDir(null), "ducensepsis.txt");
             Log.d("Main Activity", "Get practitionerid");
-            String line, server;
+            String line,server;
             if (testFile != null) {
                 StringBuilder stringBuilder = new StringBuilder();
                 BufferedReader reader = null;
@@ -127,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     reader.close();
                 } catch (Exception e) {
-                    Log.e("Main Actity", "Unable to read the file." + e.toString());
+                    Log.e("Main Activity", "Unable to read the file." + e.toString());
                 }
             }
 

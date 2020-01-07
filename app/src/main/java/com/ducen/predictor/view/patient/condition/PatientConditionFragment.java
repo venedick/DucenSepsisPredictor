@@ -4,6 +4,7 @@ package com.ducen.predictor.view.patient.condition;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -23,12 +25,17 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ducen.predictor.defaultdata.Session;
 import com.ducen.predictor.model.Condition;
 import com.ducen.predictor.r4.converter.R4ConditionConverterImpl;
 import com.ducen.predictor.r4.entity.R4Condition;
 import com.ducen.predictor.r4.webservice.R4ConditionRestServiceImpl;
 import com.ducen.predictor.service.ConditionService;
+import com.ducen.predictor.session.SessionManagerImpl;
+import com.ducen.predictor.view.MainActivity;
 import com.ducen.predictor.view.R;
+import com.ducen.predictor.view.login.LoginActivity;
+import com.ducen.predictor.view.pincode.PincodeActivity;
 
 import org.json.JSONObject;
 

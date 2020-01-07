@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         initClasses();
 
         if (validateSession()) {
+            sessionManager.deleteSession(Session.LAST_VISIT.toString());
             Intent i = new Intent(this, PincodeActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
@@ -99,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
     boolean validateSession() {
         boolean flag = false;
         if (sessionManager.getBooleanSession(Session.IS_LOGIN.toString())) {
-            flag = true;
             flag = true;
         }
         return flag;

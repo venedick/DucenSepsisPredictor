@@ -71,9 +71,11 @@ public class MainActivity extends AppCompatActivity {
         startHandler();
     }
     public void stopHandler() {
+        Log.i("Main Activity","End Inactive User Interaction");
         handler.removeCallbacks(r);
     }
     public void startHandler() {
+        Log.i("Main Activity","Start Inactive User Interaction");
         handler.postDelayed(r, 1*60*1000);
     }
 

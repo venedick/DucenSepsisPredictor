@@ -33,7 +33,7 @@ public class PatientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient);
 
-        Log.d(TAG, "onCreate: ");
+        Log.d("Patient Activity", "onCreate: ");
 
         //Get View components
         drawerLayout = findViewById(R.id.dlPatient);

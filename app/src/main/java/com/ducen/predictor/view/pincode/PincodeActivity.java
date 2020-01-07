@@ -309,7 +309,8 @@ public class PincodeActivity extends AppCompatActivity {
                         }
                         if (flag) {
                             sessionManager.createSession(Session.IS_LOGIN.toString(), true);
-                            if (sessionManager.contains(Session.LAST_VISIT.toString())){
+                            Log.d("Session LAST VISIT",sessionManager.getBooleanSession(Session.LAST_VISIT.toString()).toString());
+                            if (sessionManager.getBooleanSession(Session.LAST_VISIT.toString())){
                                 finish();
                             }else{
                                 Intent i = new Intent(getApplicationContext(),MainActivity.class);

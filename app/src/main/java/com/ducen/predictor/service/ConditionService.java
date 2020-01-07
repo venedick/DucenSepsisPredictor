@@ -1,17 +1,16 @@
 package com.ducen.predictor.service;
 
-import android.util.Log;
+        import android.util.Log;
 
-import com.ducen.predictor.model.Condition;
-import com.ducen.predictor.r4.entity.R4Condition;
-import com.ducen.predictor.r4.types.Age;
-import com.ducen.predictor.r4.types.CodeableConcept;
-import com.ducen.predictor.r4.types.Coding;
-import com.ducen.predictor.r4.types.OnSet;
-import com.ducen.predictor.r4.types.Period;
+        import com.ducen.predictor.model.Condition;
+        import com.ducen.predictor.r4.entity.R4Condition;
+        import com.ducen.predictor.r4.types.Age;
+        import com.ducen.predictor.r4.types.CodeableConcept;
+        import com.ducen.predictor.r4.types.Coding;
+        import com.ducen.predictor.r4.types.OnSet;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class ConditionService {
 
@@ -23,34 +22,64 @@ public class ConditionService {
 
             Condition condition = new Condition();
 
+            String stCondition = "";
             if (r4Condition.getCode() != null) {
-                String stCondition = extractDisplayFromCodeableConcept(r4Condition.getCode());
-                condition.setCondition(stCondition);
+                stCondition = extractDisplayFromCodeableConcept(r4Condition.getCode());
             }
+            condition.setCondition(stCondition);
 
+            String clinicalStatus = "";
             if (r4Condition.getClinicalStatus() != null) {
-                String clinicalStatus = extractDisplayFromCodeableConcept(r4Condition.getClinicalStatus());
-                condition.setClinicalStatus(clinicalStatus);
+                clinicalStatus = extractDisplayFromCodeableConcept(r4Condition.getClinicalStatus());
             }
+            condition.setClinicalStatus(clinicalStatus);
 
+            String verificationStatus = "";
             if (r4Condition.getVerificationStatus() != null) {
-                String verificationStatus = extractDisplayFromCodeableConcept(r4Condition.getVerificationStatus());
-                condition.setVerificationStatus(verificationStatus);
+                verificationStatus = extractDisplayFromCodeableConcept(r4Condition.getVerificationStatus());
             }
+            condition.setVerificationStatus(verificationStatus);
 
+            String onsetDate = "";
             if (r4Condition.getOnSet() != null) {
-                String onsetDate = extractDateTimeFromOnSet(r4Condition.getOnSet());
-                condition.setOnsetDate(onsetDate);
+                onsetDate = extractDateTimeFromOnSet(r4Condition.getOnSet());
             }
+            condition.setOnsetDate(onsetDate);
 
+            String abatementDateTime = "";
             if (r4Condition.getAbatement() != null) {
-                String abatementDateTime = extractDateTimeFromOnSet(r4Condition.getAbatement());
-                condition.setAbatementDate(abatementDateTime);
+                abatementDateTime = extractDateTimeFromOnSet(r4Condition.getAbatement());
             }
+            condition.setAbatementDate(abatementDateTime);
+
+            String bodySite = "";
+            if (r4Condition.getBodySite() != null) {
+                bodySite = extractDisplayFromCodeableConceptList(r4Condition.getBodySite());
+            }
+            condition.setBodySite(bodySite);
+
+            String severity = "";
+            if (r4Condition.getSeverity() != null) {
+                severity = extractDisplayFromCodeableConcept(r4Condition.getSeverity());
+            }
+            condition.setSeverity(severity);
+
+            Log.d("TEST", condition.toString());
 
             conditionList.add(condition);
         }
         return conditionList;
+    }
+
+    String extractDisplayFromCodeableConceptList(List<CodeableConcept> codeableConceptList){
+        String display = "";
+        for (CodeableConcept codeableConcept : codeableConceptList) {
+            if (!extractDisplayFromCodeableConcept(codeableConcept).equalsIgnoreCase("")) {
+                display = extractDisplayFromCodeableConcept(codeableConcept);
+                break;
+            }
+        }
+        return display;
     }
 
     String extractDisplayFromCodeableConcept(CodeableConcept codeableConcept) {
@@ -84,18 +113,16 @@ public class ConditionService {
         if (onSet.getOnsetString() != null && onSet.getOnsetString().length() != 0) {
             onsetDate = onSet.getOnsetString();
         }
-
-        Log.d("TEST", "onsetDate : " + onsetDate);
-
         return onsetDate;
     }
 
-    String extractValueFromAge(Age age){
+    String extractValueFromAge(Age age) {
         String value = "";
         if (age.getValue() != null) {
             value = age.getValue() + "yrs old";
         }
         return value;
     }
+
 
 }

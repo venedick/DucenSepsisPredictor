@@ -125,7 +125,7 @@ public class PatientConditionFragment extends Fragment {
     }
 
     private void callGetAppointmentByPractitionerWebService() {
-        String patientId = "58504";
+        String patientId = "1208";
         getConditionByPatientIdObservable(10, patientId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -345,7 +345,6 @@ public class PatientConditionFragment extends Fragment {
 
         }
     }
-
 
 }
 

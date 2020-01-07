@@ -2,20 +2,16 @@ package com.ducen.predictor.model;
 
 public class Condition {
 
-    String condition;
     String clinicalStatus;
     String verificationStatus;
+    String condition;
     String onsetDate;
     String abatementDate;
+    String bodySite;
+    String severity;
 
-    public Condition(){};
 
-    public Condition(String condition, String clinicalStatus, String verificationStatus, String onsetDate, String abatementDate) {
-        this.condition = condition;
-        this.clinicalStatus = clinicalStatus;
-        this.verificationStatus = verificationStatus;
-        this.onsetDate = onsetDate;
-        this.abatementDate = abatementDate;
+    public Condition() {
     }
 
     public String getCondition() {
@@ -58,14 +54,33 @@ public class Condition {
         this.abatementDate = abatementDate;
     }
 
+    public String getBodySite() {
+        return bodySite;
+    }
+
+    public void setBodySite(String bodySite) {
+        this.bodySite = bodySite;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+
     @Override
     public String toString() {
         return "Condition{" +
-                "condition='" + condition + '\'' +
-                ", clinicalStatus='" + clinicalStatus + '\'' +
+                "clinicalStatus='" + clinicalStatus + '\'' +
                 ", verificationStatus='" + verificationStatus + '\'' +
+                ", condition='" + condition + '\'' +
                 ", onsetDate='" + onsetDate + '\'' +
                 ", abatementDate='" + abatementDate + '\'' +
+                ", bodySite='" + bodySite + '\'' +
+                ", severity='" + severity + '\'' +
                 '}';
     }
 }

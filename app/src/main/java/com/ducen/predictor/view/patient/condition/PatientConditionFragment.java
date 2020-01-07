@@ -65,7 +65,7 @@ public class PatientConditionFragment extends Fragment {
 
     private List<Condition> conditionList;
 
-    private TableLayout mTableLayout;
+    private TableLayout mTableLayout,freezeTable;
     private ProgressDialog mProgressBar;
 
     public PatientConditionFragment() {
@@ -89,7 +89,9 @@ public class PatientConditionFragment extends Fragment {
         mTableLayout = view.findViewById(R.id.tableConditions);
         mTableLayout.setStretchAllColumns(true);
 
-//        loadData(view);
+        freezeTable = view.findViewById(R.id.tableCondition);
+
+        loadData(view);
         return view;
     }
 
@@ -197,9 +199,9 @@ public class PatientConditionFragment extends Fragment {
         int rightRowMargin = 0;
         int bottomRowMargin = 0;
         int textSize = 0, smallTextSize = 0;
-
+/*
         textSize = (int) getResources().getDimension(R.dimen.font_size_verysmall);
-        smallTextSize = (int) getResources().getDimension(R.dimen.font_size_small);
+        smallTextSize = (int) getResources().getDimension(R.dimen.font_size_small);*/
 
         Conditions condition = new Conditions();
         Condition[] data = condition.getCondition();
@@ -209,6 +211,7 @@ public class PatientConditionFragment extends Fragment {
         TextView textSpacer = null;
 
         mTableLayout.removeAllViews();
+        freezeTable.removeAllViews();
 
         // -1 means heading row
         for (int i = -1; i < rows; i++) {
@@ -220,146 +223,103 @@ public class PatientConditionFragment extends Fragment {
                 textSpacer.setText("");
 
             }
-            // data columns
+            // Condition
             final TextView tv = new TextView(view.getContext());
             tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
+            tv.setGravity(Gravity.CENTER);
 
-            tv.setGravity(Gravity.LEFT);
+            tv.setPadding(20, 40, 20, 40);
 
-            //Condition Column
-            tv.setPadding(5, 15, 0, 15);
             if (i == -1) {
-
                 //Condition Header
-                tv.setText("Condition");
-                tv.setBackgroundColor(Color.parseColor("#f0f0f0"));
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize);
+                tv.setText(getResources().getString(R.string.condition));
+                tv.setBackgroundColor(getResources().getColor(R.color.menuBGLightBlue));
+                tv.setTextColor(getResources().getColor(R.color.fontColor));
             } else {
-                tv.setBackgroundColor(Color.parseColor("#f8f8f8"));
+                tv.setBackgroundColor(getResources().getColor(R.color.colorWhite));
                 tv.setText(String.valueOf(row.getCondition()));
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
             }
-
-            final TextView tv2 = new TextView(view.getContext());
-            if (i == -1) {
-                tv2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT));
-                tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize);
-            } else {
-                tv2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                        TableRow.LayoutParams.MATCH_PARENT));
-                tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-            }
-
-            tv2.setGravity(Gravity.LEFT);
 
             //Clinical Status
-            tv2.setPadding(5, 15, 0, 15);
+            final TextView tv2 = new TextView(view.getContext());
+            tv2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+
+            tv2.setGravity(Gravity.CENTER);
+            tv2.setPadding(20, 40, 20, 40);
+
             if (i == -1) {
                 tv2.setText("Clinical Status");
-                tv2.setBackgroundColor(Color.parseColor("#f7f7f7"));
+                tv2.setBackgroundColor(getResources().getColor(R.color.menuBGLightBlue));
+                tv2.setTextColor(getResources().getColor(R.color.fontColor));
             } else {
-                tv2.setBackgroundColor(Color.parseColor("#ffffff"));
-                tv2.setTextColor(Color.parseColor("#000000"));
+                tv2.setBackgroundColor(getResources().getColor(R.color.colorWhite));
                 tv2.setText(row.getClinicalStatus());
             }
 
-            final LinearLayout layCustomer = new LinearLayout(view.getContext());
+            /*final LinearLayout layCustomer = new LinearLayout(view.getContext());
             layCustomer.setOrientation(LinearLayout.VERTICAL);
             layCustomer.setPadding(0, 10, 0, 10);
-            layCustomer.setBackgroundColor(Color.parseColor("#f8f8f8"));
-
-            final TextView tv3 = new TextView(view.getContext());
-            if (i == -1) {
-                tv3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT));
-                tv3.setPadding(5, 5, 0, 5);
-                tv3.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize);
-            } else {
-                tv3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT));
-                tv3.setPadding(5, 0, 0, 5);
-                tv3.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-            }
-
-            tv3.setGravity(Gravity.TOP);
+            layCustomer.setBackgroundColor(Color.parseColor("#f8f8f8"));*/
 
             //Verification Status
+            final TextView tv3 = new TextView(view.getContext());
+            tv3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+
+            tv3.setGravity(Gravity.CENTER);
+            tv3.setPadding(20, 40, 20, 40);
+
             if (i == -1) {
                 tv3.setText("Verification Status");
-                tv3.setBackgroundColor(Color.parseColor("#f0f0f0"));
+                tv3.setBackgroundColor(getResources().getColor(R.color.menuBGLightBlue));
+                tv3.setTextColor(getResources().getColor(R.color.fontColor));
             } else {
-                tv3.setBackgroundColor(Color.parseColor("#f8f8f8"));
-                tv3.setTextColor(Color.parseColor("#000000"));
-                tv3.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize);
+                tv3.setBackgroundColor(getResources().getColor(R.color.colorWhite));
                 tv3.setText(row.getVerificationStatus());
             }
-            layCustomer.addView(tv3);
-
-            final LinearLayout layAmounts = new LinearLayout(view.getContext());
-            layAmounts.setOrientation(LinearLayout.VERTICAL);
-            layAmounts.setGravity(Gravity.RIGHT);
-            layAmounts.setPadding(0, 10, 0, 10);
-            layAmounts.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.MATCH_PARENT));
-
-            final TextView tv4 = new TextView(view.getContext());
-            if (i == -1) {
-                tv4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT));
-                tv4.setPadding(5, 5, 1, 5);
-                layAmounts.setBackgroundColor(Color.parseColor("#f7f7f7"));
-            } else {
-                tv4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT));
-                tv4.setPadding(5, 0, 1, 5);
-                layAmounts.setBackgroundColor(Color.parseColor("#ffffff"));
-            }
-
-            tv4.setGravity(Gravity.RIGHT);
 
             //Onset Date
+            final TextView tv4 = new TextView(view.getContext());
+            tv4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+
+            tv4.setGravity(Gravity.CENTER);
+            tv4.setPadding(20, 40, 20, 40);
+
             if (i == -1) {
                 tv4.setText("Onset Date");
-                tv4.setBackgroundColor(Color.parseColor("#f7f7f7"));
-                tv4.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallTextSize);
+                tv4.setBackgroundColor(getResources().getColor(R.color.menuBGLightBlue));
+                tv4.setTextColor(getResources().getColor(R.color.fontColor));
             } else {
-                tv4.setBackgroundColor(Color.parseColor("#ffffff"));
-                tv4.setTextColor(Color.parseColor("#000000"));
+                tv4.setBackgroundColor(getResources().getColor(R.color.colorWhite));
                 tv4.setText(row.getOnsetDate());
-                tv4.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
             }
-
-            layAmounts.addView(tv4);
 
             // add table row
             final TableRow tr = new TableRow(view.getContext());
+            final TableRow trf = new TableRow(view.getContext());
             tr.setId(i + 1);
-            TableLayout.LayoutParams trParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+            TableLayout.LayoutParams trParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT);
-            trParams.setMargins(leftRowMargin, topRowMargin, rightRowMargin, bottomRowMargin);
-            tr.setPadding(0, 0, 0, 0);
             tr.setLayoutParams(trParams);
-
-            tr.addView(tv);
+            trf.addView(tv);
             tr.addView(tv2);
-            tr.addView(layCustomer);
-            tr.addView(layAmounts);
+            tr.addView(tv3);
+            tr.addView(tv4);
 
             if (i > -1) {
-
                 tr.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         TableRow tr = (TableRow) v;
                         //do whatever action is needed
-
                     }
                 });
-
-
             }
+
             mTableLayout.addView(tr, trParams);
+            freezeTable.addView(trf, trParams);
 
             if (i > -1) {
 

@@ -47,13 +47,14 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Log.i("Main Activity", "Lock Session");
                 Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
-                if(log){
-                    Log.i("Main Activity","Visited : "+ MainActivity.class.getCanonicalName());
-                    sessionManager.createSession(Session.LAST_VISIT.toString(),true);
+                if (log) {
+                    Log.i("Main Activity", "Visited : " + MainActivity.class.getCanonicalName());
+                    sessionManager.createSession(Session.LAST_VISIT.toString(), MainActivity.class.getCanonicalName());
                     Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
-                }else{
+                    finish();
+                } else {
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
@@ -64,24 +65,31 @@ public class MainActivity extends AppCompatActivity {
         startHandler();
 
     }
+
     @Override
     public void onUserInteraction() {
+        // TODO Auto-generated method stub
         super.onUserInteraction();
-        stopHandler();
+        stopHandler();//stop first and then start
         startHandler();
     }
+
     public void stopHandler() {
-        Log.i("Main Activity","End Inactive User Interaction");
         handler.removeCallbacks(r);
     }
+
     public void startHandler() {
-        Log.i("Main Activity","Start Inactive User Interaction");
-        handler.postDelayed(r, 1*60*1000);
+        handler.postDelayed(r, 1 * 60 * 1000);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (timer != null) {
+            timer.cancel();
+            Log.i("Main Activity", "cancel timer");
+            timer = null;
+        }
     }
 
     public void onBackPressed() {
@@ -97,19 +105,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
 
-
-
-    private String getPractitionerId(){
+    private String getPractitionerId() {
         String practitionerId = "";
         try {
             File testFile = new File(this.getExternalFilesDir(null), "ducensepsis.txt");
             Log.d("Main Activity", "Get practitionerid");
-            String line,server;
+            String line, server;
             if (testFile != null) {
                 StringBuilder stringBuilder = new StringBuilder();
                 BufferedReader reader = null;
@@ -121,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     reader.close();
                 } catch (Exception e) {
-                    Log.e("Main Activity", "Unable to read the file." + e.toString());
+                    Log.e("Main Actity", "Unable to read the file." + e.toString());
                 }
             }
 

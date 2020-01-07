@@ -9,11 +9,19 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.ducen.predictor.defaultdata.Session;
+import com.ducen.predictor.session.SessionManagerImpl;
+import com.ducen.predictor.view.MainActivity;
 import com.ducen.predictor.view.R;
+import com.ducen.predictor.view.login.LoginActivity;
 import com.ducen.predictor.view.patient.allergy.PatientAllergyFragment;
 import com.ducen.predictor.view.patient.condition.PatientConditionFragment;
 import com.ducen.predictor.view.patient.medication.dispense.PatientDispenseFragment;
@@ -21,12 +29,26 @@ import com.ducen.predictor.view.patient.medication.order.PatientOrderFragment;
 import com.ducen.predictor.view.patient.observation.exam.PatientExam;
 import com.ducen.predictor.view.patient.observation.laboratory.PatientLaboratory;
 import com.ducen.predictor.view.patient.observation.socialhistory.PatientSocialHistoryFragment;
+import com.ducen.predictor.view.pincode.PincodeActivity;
 import com.google.android.material.navigation.NavigationView;
 
 public class PatientActivity extends AppCompatActivity {
 
     public DrawerLayout drawerLayout;
     private static final String TAG = "PatientActivity";
+
+    private Handler handler;
+    private Runnable r;
+
+    private SessionManagerImpl sessionManager;
+
+    public SessionManagerImpl getSessionManager() {
+        return sessionManager;
+    }
+
+    public void setSessionManager(SessionManagerImpl sessionManager) {
+        this.sessionManager = sessionManager;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,5 +98,66 @@ public class PatientActivity extends AppCompatActivity {
                 return true;
             }
         });*/
+
+        handler = new Handler();
+        r = new Runnable() {
+
+            @Override
+            public void run() {
+                lockScreen();
+            }
+        };
+        startHandler();
+    }
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        stopHandler();
+        startHandler();
+    }
+    public void stopHandler() {
+        Log.i("Patient Activity","End Inactive User Interaction");
+        handler.removeCallbacks(r);
+    }
+    public void startHandler() {
+        Log.i("Patient Activity","Start Inactive User Interaction");
+        handler.postDelayed(r, 1*60*1000);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        boolean isScreenOn;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            isScreenOn = powerManager.isInteractive();
+        } else {
+            isScreenOn = powerManager.isScreenOn();
+        }
+
+        if (!isScreenOn) {
+            lockScreen();
+        }
+    }
+    private void lockScreen(){
+        Log.i("Patient Activity","Lock Screen");
+        Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
+        if(log){
+            Log.i("Patient Activity","Visited : "+ MainActivity.class.getCanonicalName());
+            sessionManager.createSession(Session.LAST_VISIT.toString(),true);
+            Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }else{
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        }
     }
 }

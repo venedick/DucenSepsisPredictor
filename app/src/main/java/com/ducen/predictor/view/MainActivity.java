@@ -44,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_dashboard);
         NavigationUI.setupWithNavController(navView, navController);
+
         handler = new Handler();
         r = new Runnable() {
 
             @Override
             public void run() {
-                Log.i("Main Activity", "Lock Session");
                 lockScreen();
             }
         };
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void lockScreen(){
-        Log.i("MAin Activity","LockScreen");
+        Log.i("Main Activity","Lock Screen");
         Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
         if(log){
             Log.i("Main Activity","Visited : "+ MainActivity.class.getCanonicalName());

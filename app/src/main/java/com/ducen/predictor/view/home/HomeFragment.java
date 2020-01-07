@@ -29,6 +29,7 @@ import com.ducen.predictor.r4.converter.R4PatientConverterImpl;
 import com.ducen.predictor.r4.webservice.R4AppointmentRestServiceImpl;
 import com.ducen.predictor.r4.webservice.R4PatientRestServiceImpl;
 import com.ducen.predictor.service.RecentPatientService;
+import com.ducen.predictor.view.MainActivity;
 import com.ducen.predictor.view.R;
 import com.ducen.predictor.view.adapter.PatientAdapter;
 import com.ducen.predictor.view.adapter.RecentPatientAdapter;

@@ -6,9 +6,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.ducen.predictor.defaultdata.Session;
@@ -28,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private SessionManagerImpl sessionManager;
     boolean doubleBackToExitPressedOnce = false;
     private Timer timer;
-    Handler handler;
-    Runnable r;
+    private Handler handler;
+    private Runnable r;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Log.i("Main Activity", "Lock Session");
-                Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
-                if(log){
-                    Log.i("Main Activity","Visited : "+ MainActivity.class.getCanonicalName());
-                    sessionManager.createSession(Session.LAST_VISIT.toString(),true);
-                    Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                }else{
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                    finish();
-                }
+                lockScreen();
             }
         };
         startHandler();
@@ -84,6 +76,22 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        boolean isScreenOn;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            isScreenOn = powerManager.isInteractive();
+        } else {
+            isScreenOn = powerManager.isScreenOn();
+        }
+
+        if (!isScreenOn) {
+            lockScreen();
+        }
+    }
+
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
@@ -103,6 +111,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void lockScreen(){
+        Log.i("MAin Activity","LockScreen");
+        Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
+        if(log){
+            Log.i("Main Activity","Visited : "+ MainActivity.class.getCanonicalName());
+            sessionManager.createSession(Session.LAST_VISIT.toString(),true);
+            Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }else{
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        }
+    }
 
     private String getPractitionerId(){
         String practitionerId = "";

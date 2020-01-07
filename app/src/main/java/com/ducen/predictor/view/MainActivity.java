@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void startHandler() {
         Log.i("Main Activity","Start Inactive User Interaction");
-        handler.postDelayed(r, 1*60*1000);
+        handler.postDelayed(r, 3*60*1000);
     }
 
     @Override

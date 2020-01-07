@@ -121,7 +121,7 @@ public class PatientActivity extends AppCompatActivity {
     }
     public void startHandler() {
         Log.i("Patient Activity","Start Inactive User Interaction");
-        handler.postDelayed(r, 1*60*1000);
+        handler.postDelayed(r, 3*60*1000);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.ducen.predictor.view.pincode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class PincodeActivity extends AppCompatActivity {
     private ImageView editText_one, editText_two, editText_three, editText_four;
     private TextView textView_title;
     private Button button_confirm, button_forgot;
-    private LinearLayout actionBar, logo;
+    private LinearLayout actionBar, logo,layout_otp,keyboard_view;
     private ImageButton backbutton;
 
     @Override
@@ -130,6 +131,8 @@ public class PincodeActivity extends AppCompatActivity {
         logo = findViewById(R.id.logo);
         button_forgot = findViewById(R.id.button_forgot);
         backbutton = findViewById(R.id.header_back);
+        layout_otp = findViewById(R.id.layout_otp);
+        keyboard_view = findViewById(R.id.keyboard_view);
     }
 
     void initListeners() {
@@ -270,6 +273,8 @@ public class PincodeActivity extends AppCompatActivity {
             partialCode = "";
             confirmCode = "";
         } else {
+            shake(layout_otp);
+            shake(keyboard_view);
             Toast.makeText(getApplicationContext(), "Code didn't match!", Toast.LENGTH_SHORT).show();
             partialCode = "";
             confirmCode = "";
@@ -320,6 +325,8 @@ public class PincodeActivity extends AppCompatActivity {
 
                         } else {
                             Log.i("Login", "Code is wrong");
+                            shake(layout_otp);
+                            shake(keyboard_view);
                             enterCode = "";
                             editText_one.setImageResource(R.drawable.circle);
                             editText_two.setImageResource(R.drawable.circle);
@@ -354,6 +361,12 @@ public class PincodeActivity extends AppCompatActivity {
         }
     }
 
+    void shake(LinearLayout view){
+        ObjectAnimator
+                .ofFloat(view, "translationX", 0, 25, -25, 25, -25,15, -15, 6, -6, 0)
+                .setDuration(1000)
+                .start();
+    }
     void createSession() {
         sessionManager.createSession(Session.SET_CODE.toString(), true);
     }

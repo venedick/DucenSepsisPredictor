@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 public interface R4ConditionRestService {
 
     @GET(Resources.RESOURCES_CONDITION + "/")
-    Observable<ResponseBody> getConditionByPatientId(@Query(SearchParameters.COUNT) int resultCount, @Query(SearchParameters._ID) String id);
+    Observable<ResponseBody> getConditionByPatientId(@Query(SearchParameters.COUNT) int resultCount, @Query(SearchParameters.PATIENT) String id);
 
 }

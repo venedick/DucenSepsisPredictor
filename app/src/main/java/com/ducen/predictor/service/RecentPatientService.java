@@ -24,8 +24,19 @@ public class RecentPatientService {
 
         for (R4Appointment r4Appointment : r4AppointmentList) {
             RecentPatient recentPatient = new RecentPatient();
-            recentPatient.setAppointmentDate(r4Appointment.getStart());
-            recentPatient.setAppointmentDescription(r4Appointment.getDescription());
+
+            String appointmentDate = "";
+            if (r4Appointment.getStart() != null) {
+                appointmentDate = r4Appointment.getStart();
+            }
+            recentPatient.setAppointmentDate(appointmentDate);
+
+            String appointmentDescription = "";
+            if (r4Appointment.getDescription() != null) {
+                appointmentDescription = r4Appointment.getDescription();
+            }
+            recentPatient.setAppointmentDescription(appointmentDescription);
+
 
             String patientId = extractPatientIdFromAppointment(r4Appointment);
             recentPatient.setPatientId(patientId);
@@ -41,45 +52,89 @@ public class RecentPatientService {
         for (R4Patient r4Patient : r4PatientList) {
             RecentPatient recentPatient = new RecentPatient();
 
-            String patientId = r4Patient.getPatientId();
+            String patientId = "";
+            if (r4Patient.getPatientId() != null && r4Patient.getPatientId().length() != 0) {
+                patientId = r4Patient.getPatientId();
+            }
             recentPatient.setPatientId(patientId);
 
 
             //populate human name
+            String familyName = "";
+            String givenNames = "";
+            String fullName = "";
             if (r4Patient.getHumanName() != null) {
                 List<HumanName> patientNames = r4Patient.getHumanName();
                 for (HumanName humanName : patientNames) {
-                    String familyName = humanName.getFamily();
-                    String givenNames = humanName.getGiven().get(0);
-                    String fullName = givenNames + " " + familyName;
-                    recentPatient.setFullname(fullName);//fullName
-                    recentPatient.setFname(givenNames);//firstName
-                    recentPatient.setLname(familyName);//lastName
+
+                    if (humanName.getFamily() != null) {
+                        familyName = humanName.getFamily();
+                    }
+
+                    if (humanName.getGiven().get(0) != null) {
+                        givenNames = humanName.getGiven().get(0);
+                    }
+
+                    fullName = givenNames + " " + familyName;
+
                 }
             }
+            recentPatient.setFullname(fullName);//fullName
+            recentPatient.setFname(givenNames);//firstName
+            recentPatient.setLname(familyName);//lastName
 
+            String homeAddress = "";
             if (r4Patient.getAddress() != null) {
                 List<Address> patientAddress = r4Patient.getAddress();
                 for (Address address : patientAddress) {
-                    String homeAddress = address.getLine().get(0) + ", " + address.getCity() + ", " + address.getPostalCode() + ", " + address.getCountry();
-                    recentPatient.setAddress(homeAddress);
+
+                    String line = "";
+                        if (address.getLine().get(0) != null) {
+                        line = address.getLine().get(0);
+                    }
+
+                    String city = "";
+                    if (address.getCity() != null) {
+                        city = address.getCity();
+                    }
+
+                    String postalCode = "";
+                    if (address.getPostalCode() != null) {
+                        postalCode = address.getPostalCode();
+                    }
+
+                    String country = "";
+                    if (address.getCountry() != null) {
+                        country = address.getCountry();
+                    }
+
+                    homeAddress = line +", " + city + ", " + postalCode + ", " + country;
                 }
             }
+            recentPatient.setAddress(homeAddress);
 
+            String phoneNumber = "";
             if (r4Patient.getTelecom() != null) {
                 List<ContactPoint> patientContacts = r4Patient.getTelecom();
                 for (ContactPoint contactPoint : patientContacts) {
-                    String phoneNumber = contactPoint.getValue();
-                    recentPatient.setPhoneNumber(phoneNumber);
+                    if (contactPoint.getValue() != null) {
+                        phoneNumber = contactPoint.getValue();
+                    }
                 }
             }
+            recentPatient.setPhoneNumber(phoneNumber);
 
+            String gender = "";
+            if (r4Patient.getGender() != null) {
+                gender = r4Patient.getGender();
+            }
+            recentPatient.setGender(gender);
 
-            String gender = r4Patient.getGender();
-            recentPatient.setGender(gender);//gender
-
-            String birthdate = r4Patient.getBirthDate();
-            recentPatient.setBirthDate(birthdate); // this should be birthdate, not age
+            String birthdate = "";
+            if (r4Patient.getBirthDate() != null) {
+                birthdate = r4Patient.getBirthDate();
+            }
+            recentPatient.setBirthDate(birthdate);
 
             recentPatientList.add(recentPatient);
         }
@@ -114,7 +169,11 @@ public class RecentPatientService {
         List<String> patientIdList = new ArrayList<>();
 
         for (R4Patient r4Patient : r4PatientList) {
-            String patientId = r4Patient.getPatientId();
+
+            String patientId = "";
+            if (r4Patient.getGender() != null) {
+                patientId = r4Patient.getPatientId();
+            }
             patientIdList.add(patientId);
         }
 
@@ -129,11 +188,18 @@ public class RecentPatientService {
     public String extractPatientIdFromAppointment(R4Appointment r4Appointment) {
         String patientId = "";
         for (Participant participant : r4Appointment.getParticipant()) {
-            Reference reference = participant.getActor();
-            String getReference = reference.getReference();
-            if (getReference.contains("Patient/")) {
-                patientId = getReference.substring(8);
-                break;
+
+            if (participant.getActor() != null) {
+                Reference reference = participant.getActor();
+
+                if (reference.getReference() != null) {
+                    String getReference = reference.getReference();
+
+                    if (getReference.contains("Patient/")) {
+                        patientId = getReference.substring(8);
+                        break;
+                    }
+                }
             }
         }
         return patientId;
@@ -146,40 +212,81 @@ public class RecentPatientService {
             if (recentPatient.getPatientId().equalsIgnoreCase(r4Patient.getPatientId())) {
 
                 //populate human name
+                String familyName = "";
+                String givenNames = "";
+                String fullName = "";
                 if (r4Patient.getHumanName() != null) {
                     List<HumanName> patientNames = r4Patient.getHumanName();
                     for (HumanName humanName : patientNames) {
-                        String familyName = humanName.getFamily();
-                        String givenNames = humanName.getGiven().get(0);
-                        String fullName = givenNames + " " + familyName;
-                        recentPatient.setFullname(fullName);//fullName
-                        recentPatient.setFname(givenNames);//firstName
-                        recentPatient.setLname(familyName);//lastName
+
+                        if (humanName.getFamily() != null) {
+                            familyName = humanName.getFamily();
+                        }
+
+                        if (humanName.getGiven().get(0) != null) {
+                            givenNames = humanName.getGiven().get(0);
+                        }
+
+                        fullName = givenNames + " " + familyName;
+
                     }
                 }
+                recentPatient.setFullname(fullName);//fullName
+                recentPatient.setFname(givenNames);//firstName
+                recentPatient.setLname(familyName);//lastName
 
+                String homeAddress = "";
                 if (r4Patient.getAddress() != null) {
                     List<Address> patientAddress = r4Patient.getAddress();
                     for (Address address : patientAddress) {
-                        String homeAddress = address.getLine().get(0) + ", " + address.getCity() + ", " + address.getPostalCode() + ", " + address.getCountry();
-                        recentPatient.setAddress(homeAddress);
+
+                        String line = "";
+                        if (address.getLine().get(0) != null) {
+                            line = address.getLine().get(0);
+                        }
+
+                        String city = "";
+                        if (address.getCity() != null) {
+                            city = address.getCity();
+                        }
+
+                        String postalCode = "";
+                        if (address.getPostalCode() != null) {
+                            postalCode = address.getPostalCode();
+                        }
+
+                        String country = "";
+                        if (address.getCountry() != null) {
+                            country = address.getCountry();
+                        }
+
+                        homeAddress = line +", " + city + ", " + postalCode + ", " + country;
                     }
                 }
+                recentPatient.setAddress(homeAddress);
 
+                String phoneNumber = "";
                 if (r4Patient.getTelecom() != null) {
                     List<ContactPoint> patientContacts = r4Patient.getTelecom();
                     for (ContactPoint contactPoint : patientContacts) {
-                        String phoneNumber = contactPoint.getValue();
-                        recentPatient.setPhoneNumber(phoneNumber);
+                        if (contactPoint.getValue() != null) {
+                            phoneNumber = contactPoint.getValue();
+                        }
                     }
                 }
+                recentPatient.setPhoneNumber(phoneNumber);
 
+                String gender = "";
+                if (r4Patient.getGender() != null) {
+                    gender = r4Patient.getGender();
+                }
+                recentPatient.setGender(gender);
 
-                String gender = r4Patient.getGender();
-                recentPatient.setGender(gender);//gender
-
-                String birthdate = r4Patient.getBirthDate();
-                recentPatient.setBirthDate(birthdate); // this should be birthdate, not age
+                String birthdate = "";
+                if (r4Patient.getBirthDate() != null) {
+                    birthdate = r4Patient.getBirthDate();
+                }
+                recentPatient.setBirthDate(birthdate);
 
             }
         }
@@ -191,13 +298,23 @@ public class RecentPatientService {
         String patientId = extractPatientIdFromAppointment(r4Appointment);
         for (RecentPatient recentPatient : recentPatientList) {
             if (recentPatient.getPatientId().equalsIgnoreCase(patientId)) {
-                recentPatient.setAppointmentDate(r4Appointment.getStart());
-                recentPatient.setAppointmentDescription(r4Appointment.getDescription());
+
+                String appointmentDate = "";
+                if (r4Appointment.getStart() != null) {
+                    appointmentDate = r4Appointment.getStart();
+                }
+                recentPatient.setAppointmentDate(appointmentDate);
+
+                String appointmentDescription = "";
+                if (r4Appointment.getDescription() != null) {
+                    appointmentDescription = r4Appointment.getDescription();
+                }
+                recentPatient.setAppointmentDescription(appointmentDescription);
+
             }
         }
         return recentPatientList;
     }
-
 
 
 }

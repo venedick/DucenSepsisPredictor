@@ -89,7 +89,7 @@ public class PatientConditionFragment extends Fragment {
         mTableLayout = view.findViewById(R.id.tableConditions);
         mTableLayout.setStretchAllColumns(true);
 
-        loadData(view);
+//        loadData(view);
         return view;
     }
 
@@ -122,9 +122,8 @@ public class PatientConditionFragment extends Fragment {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-
     private void callGetAppointmentByPractitionerWebService() {
-        String patientId = "249128";
+        String patientId = "58504";
         getConditionByPatientIdObservable(10, patientId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -191,7 +190,6 @@ public class PatientConditionFragment extends Fragment {
                     }
                 });
     }
-
 
     private void loadData(View view) {
         int leftRowMargin = 0;

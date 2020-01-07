@@ -89,7 +89,7 @@ public class RecentPatientService {
                 for (Address address : patientAddress) {
 
                     String line = "";
-                    if (address.getLine().get(0) != null) {
+                        if (address.getLine().get(0) != null) {
                         line = address.getLine().get(0);
                     }
 

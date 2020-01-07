@@ -5,6 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorBlue">@android:color/holo_blue_dark</color>
     <color name="colorWhite">@android:color/white</color>
+    <color name="transparent">#00000000</color>
+    <color name="colorLightGray">#D3D1D1</color>
 
     <!--Angge-->
     <color name="backgroundColor">#F7F7FA</color>

@@ -12,6 +12,7 @@
     <dimen name="intro_icons_height">136dp</dimen>
 
     <!--General dimens-->
+    <dimen name="dm_5">5dp</dimen>
     <dimen name="dm_10">10dp</dimen>
     <dimen name="dm_20">20dp</dimen>
     <dimen name="dm_30">30dp</dimen>

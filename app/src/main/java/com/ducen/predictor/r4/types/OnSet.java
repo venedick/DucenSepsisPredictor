@@ -4,7 +4,7 @@ package com.ducen.predictor.r4.types;
 public class OnSet {
 
     private String onsetDateTime;
-    private String onsetAge;
+    private Age onsetAge;
     private Period onsetPeriod;
     private String onsetRange;
     private String onsetString;
@@ -17,11 +17,11 @@ public class OnSet {
         this.onsetDateTime = onsetDateTime;
     }
 
-    public String getOnsetAge() {
+    public Age getOnsetAge() {
         return onsetAge;
     }
 
-    public void setOnsetAge(String onsetAge) {
+    public void setOnsetAge(Age onsetAge) {
         this.onsetAge = onsetAge;
     }
 
@@ -53,7 +53,7 @@ public class OnSet {
 
     }
 
-    public OnSet(String onsetDateTime, String onsetAge, Period onsetPeriod, String onsetRange, String onsetString) {
+    public OnSet(String onsetDateTime, Age onsetAge, Period onsetPeriod, String onsetRange, String onsetString) {
         this.onsetDateTime = onsetDateTime;
         this.onsetAge = onsetAge;
         this.onsetPeriod = onsetPeriod;
@@ -65,8 +65,8 @@ public class OnSet {
     public String toString() {
         return "OnSet{" +
                 "onsetDateTime='" + onsetDateTime + '\'' +
-                ", onsetAge='" + onsetAge + '\'' +
-                ", onsetPeriod='" + onsetPeriod + '\'' +
+                ", onsetAge=" + onsetAge +
+                ", onsetPeriod=" + onsetPeriod +
                 ", onsetRange='" + onsetRange + '\'' +
                 ", onsetString='" + onsetString + '\'' +
                 '}';

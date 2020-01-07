@@ -3,6 +3,7 @@ package com.ducen.predictor.r4.converter;
 import android.util.Log;
 
 import com.ducen.predictor.defaultdata.Properties;
+import com.ducen.predictor.r4.types.Age;
 import com.ducen.predictor.r4.types.Meta;
 import com.ducen.predictor.r4.types.Stage;
 import com.ducen.predictor.r4.entity.R4Condition;
@@ -56,6 +57,7 @@ public class R4ConditionConverterImpl implements R4ConditionConverter {
                     if (jsonResources.has(Properties.KEY_RESOURCE)) {
                         JSONObject jsonResource = jsonResources.getJSONObject(Properties.KEY_RESOURCE);
                         R4Condition r4Condition = createR4Condition(jsonResource);
+
                         r4ConditionList.add(r4Condition);
                     }
 
@@ -65,6 +67,8 @@ public class R4ConditionConverterImpl implements R4ConditionConverter {
         } catch (Exception e) {
             Log.d("TEST", "createListOfCondition Exception : " + e.toString());
         }
+
+        Log.d("TEST", "r4ConditionList size : " + r4ConditionList.size());
 
         return r4ConditionList;
     }
@@ -197,7 +201,6 @@ public class R4ConditionConverterImpl implements R4ConditionConverter {
         } catch (Exception e) {
             Log.d("TEST", "createR4Condition Exception : " + e.toString());
         }
-
         return r4Condition;
     }
 
@@ -417,7 +420,8 @@ public class R4ConditionConverterImpl implements R4ConditionConverter {
 
             //initialize AGE
             if (jsonObject.has(Properties.KEY_ONSET_AGE)) {
-                String age = jsonObject.getString(Properties.KEY_ONSET_AGE);
+                JSONObject jsonAge = jsonObject.getJSONObject(Properties.KEY_ONSET_AGE);
+                Age age = createAge(jsonAge);
                 onSet.setOnsetAge(age);
             }
 
@@ -446,9 +450,35 @@ public class R4ConditionConverterImpl implements R4ConditionConverter {
         return onSet;
     }
 
+    public Age createAge(JSONObject jsonObject) {
+        Age age = new Age();
+
+        try {
+
+            if (jsonObject.has(Properties.KEY_VALUE)) {
+                String value = jsonObject.getString(Properties.KEY_VALUE);
+                age.setValue(value);
+            }
+
+            if (jsonObject.has(Properties.KEY_SYSTEM)) {
+                String system = jsonObject.getString(Properties.KEY_SYSTEM);
+                age.setSystem(system);
+            }
+
+            if (jsonObject.has(Properties.KEY_CODE)) {
+                String code = jsonObject.getString(Properties.KEY_CODE);
+                age.setCode(code);
+            }
+
+        } catch (Exception e) {
+            Log.d("TEST", "createAbatement Exception : " + e.toString());
+        }
+        return age;
+    }
+
     @Override
     public OnSet createAbatement(JSONObject jsonObject) {
-        OnSet onSet = new OnSet(null, null, null, null, null);
+        OnSet onSet = new OnSet();
 
         try {
 
@@ -460,7 +490,8 @@ public class R4ConditionConverterImpl implements R4ConditionConverter {
 
             //initialize AGE
             if (jsonObject.has(Properties.KEY_ABATEMENT_AGE)) {
-                String age = jsonObject.getString(Properties.KEY_ABATEMENT_AGE);
+                JSONObject jsonAge = jsonObject.getJSONObject(Properties.KEY_ABATEMENT_AGE);
+                Age age = createAge(jsonAge);
                 onSet.setOnsetAge(age);
             }
 

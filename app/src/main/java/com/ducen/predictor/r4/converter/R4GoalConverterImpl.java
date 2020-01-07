@@ -1,27 +1,27 @@
 package com.ducen.predictor.r4.converter;
 
-import android.util.Log;
+        import android.util.Log;
 
-import com.ducen.predictor.defaultdata.Properties;
-import com.ducen.predictor.r4.entity.R4Goal;
-import com.ducen.predictor.r4.types.Meta;
-import com.ducen.predictor.r4.types.Annotation;
-import com.ducen.predictor.r4.types.CodeableConcept;
-import com.ducen.predictor.r4.types.Coding;
-import com.ducen.predictor.r4.types.Identifier;
-import com.ducen.predictor.r4.types.Period;
-import com.ducen.predictor.r4.types.Quantity;
-import com.ducen.predictor.r4.types.Range;
-import com.ducen.predictor.r4.types.Ratio;
-import com.ducen.predictor.r4.types.Reference;
-import com.ducen.predictor.r4.types.SimpleQuantity;
-import com.ducen.predictor.r4.types.Target;
+        import com.ducen.predictor.defaultdata.Properties;
+        import com.ducen.predictor.r4.entity.R4Goal;
+        import com.ducen.predictor.r4.types.Meta;
+        import com.ducen.predictor.r4.types.Annotation;
+        import com.ducen.predictor.r4.types.CodeableConcept;
+        import com.ducen.predictor.r4.types.Coding;
+        import com.ducen.predictor.r4.types.Identifier;
+        import com.ducen.predictor.r4.types.Period;
+        import com.ducen.predictor.r4.types.Quantity;
+        import com.ducen.predictor.r4.types.Range;
+        import com.ducen.predictor.r4.types.Ratio;
+        import com.ducen.predictor.r4.types.Reference;
+        import com.ducen.predictor.r4.types.SimpleQuantity;
+        import com.ducen.predictor.r4.types.Target;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+        import org.json.JSONArray;
+        import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class R4GoalConverterImpl implements R4GoalConverter {
 

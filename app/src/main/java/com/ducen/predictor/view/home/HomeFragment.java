@@ -136,6 +136,7 @@ public class HomeFragment extends Fragment {
         rvPatients.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         rvPatients.addOnItemTouchListener(new PatientAdapter.RecyclerTouchListener(getActivity(),
                 rvPatients, new PatientAdapter.clickListener() {
+
             @Override
             public void onClick(View view, final int position) {
                 try {

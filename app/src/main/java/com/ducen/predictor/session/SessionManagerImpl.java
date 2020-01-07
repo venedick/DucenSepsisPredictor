@@ -75,6 +75,7 @@ public class SessionManagerImpl implements SessionManager {
         Log.d("Logout Session :","Successfully Logout");
         editor.remove(Session.IS_LOGIN.toString());
         editor.remove(Session.USERNAME.toString());
+        editor.remove(Session.LAST_VISIT.toString());
         editor.commit();
         Intent i = new Intent(_context, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -49,11 +49,10 @@ public class MainActivity extends AppCompatActivity {
                 Boolean log = sessionManager.getBooleanSession(Session.IS_LOGIN.toString());
                 if(log){
                     Log.i("Main Activity","Visited : "+ MainActivity.class.getCanonicalName());
-                    sessionManager.createSession(Session.LAST_VISIT.toString(),MainActivity.class.getCanonicalName());
+                    sessionManager.createSession(Session.LAST_VISIT.toString(),true);
                     Intent i = new Intent(getApplicationContext(), PincodeActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
-                    finish();
                 }else{
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public void onUserInteraction() {
         // TODO Auto-generated method stub
         super.onUserInteraction();
-        stopHandler();//stop first and then start
+        stopHandler();
         startHandler();
     }
     public void stopHandler() {
@@ -82,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (timer != null) {
-            timer.cancel();
-            Log.i("Main Activity", "cancel timer");
-            timer = null;
-        }
     }
 
     public void onBackPressed() {
@@ -126,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     reader.close();
                 } catch (Exception e) {
-                    Log.e("Main Actity", "Unable to read the file." + e.toString());
+                    Log.e("Main Activity", "Unable to read the file." + e.toString());
                 }
             }
 

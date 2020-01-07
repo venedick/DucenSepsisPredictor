@@ -113,7 +113,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
     void initClasses() {
         String serverAddressFromSession = "http://hapi.fhir.org/baseR4/";
 
-        Log.d("TEST", "initClasses Server Address is null : " + serverAddressFromSession);
+        Log.d("Email Verifcation", "initClasses Server Address is null : " + serverAddressFromSession);
 
         r4PractitionerRestServiceImpl = new R4PractitionerRestServiceImpl(getApplicationContext(), serverAddressFromSession);
 
@@ -134,6 +134,12 @@ public class EmailVerificationActivity extends AppCompatActivity {
 
         practitionerIdEditText.setText(id); //tj test, delete this line if production
         emailEditText.setText(email); //tj test, delete this line if production
+
+        if (checkValidPractitioner() && checkValidEmail()) {
+            verifyButton.setEnabled(true);
+        } else {
+            verifyButton.setEnabled(false);
+        }
     }
 
     void initTextWatcher() {

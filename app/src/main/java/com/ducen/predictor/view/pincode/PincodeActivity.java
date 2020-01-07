@@ -308,13 +308,15 @@ public class PincodeActivity extends AppCompatActivity {
                             }
                         }
                         if (flag) {
-
-                            String last_visit = sessionManager.getStringSession(Session.LAST_VISIT.toString());
-                            Log.i("Pincode Activity", "Last Visited : "+ last_visit);
                             sessionManager.createSession(Session.IS_LOGIN.toString(), true);
-                            Intent i = new Intent(getApplicationContext(),Class.forName(last_visit));
-                            startActivity(i);
-                            finish();
+                            if (sessionManager.contains(Session.LAST_VISIT.toString())){
+                                finish();
+                            }else{
+                                Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+
                         } else {
                             Log.i("Login", "Code is wrong");
                             enterCode = "";
